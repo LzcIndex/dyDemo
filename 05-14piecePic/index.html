@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>3D-banner</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="carousel">
+        <div class="images">
+          <div class="image"><img src="./img1.webp" alt="image1" /></div>
+          <div class="image"><img src="./img1.webp" alt="image2" /></div>
+          <div class="image"><img src="./img1.webp" alt="image3" /></div>
+          <div class="image"><img src="./img1.webp" alt="image4" /></div>
+          <div class="image"><img src="./img1.webp" alt="image5" /></div>
+          <div class="image"><img src="./img1.webp" alt="image5" /></div>
+        </div>
+    </div>
+    <script>
+        const imagesEl = document.querySelector('.images')
+
+        let startX = 0 // 开始的位置
+        let endX = 0 //结束的位置
+
+        let deg = 0
+
+        let isRunning = false
+
+        document.onmousedown = function(ev){
+            
+
+            startX = ev.offsetX
+
+
+            document.onmouseup = function(e){
+                endX = e.offsetX
+
+                // 至少横向拖动了100px而且当前不处于滚动中的状态才让相册滚动
+                if((Math.abs(endX - startX) > 100) && !isRunning){
+
+                    const luc = endX - startX //拖动的横向距离
+
+                    const time = Math.ceil((e.timeStamp - ev.timeStamp) / 1000) //时间 秒
+
+
+                    const su = luc / time // 路程除以时间等于速度（鼠标拖动的速度，就跟自己用力甩一样，越用力越快）  有正负数，正数证明向右拖动，负数证明向左向左
+
+                    run(su, Math.abs(luc))
+
+                }
+            }
+        }
+
+        // 动画执行结束
+        imagesEl.addEventListener('transitionend', function(){
+            isRunning = false
+        })
+
+        function run(su, len){
+            isRunning = true // 设置状态滚动中
+
+            const speed = 400 // 确定步幅，就是说至少400才算1圈，看下面
+
+
+            const round = Math.abs(parseInt(su / speed)*360) //应该转动的圈数，圈数越多，在规定时间内转的就越快
+
+            const percent =  Math.ceil((len / window.innerWidth) * 360) // 偏移角度，拖动的横向路程在整个屏幕的的占比，比如整个屏幕1000，我拖动了100，就是十分之一，那换成一整个园也就是360°，他的十分之一就是36°，我们这里只要求出这个比值*360即可
+            
+            // round+percent 就是最终的度数，round时圈数，比如10圈，角度就是3600 再加上偏移角度
+            deg = su < 0  ? (deg - (round + percent)) : (deg + (round + percent)) //速度的正负数决定向哪个方向旋转
+
+            imagesEl.style = `
+                transform: rotateY(${deg}deg);
+            `
+        }
+
+    </script>
+</body>
+
+</html>

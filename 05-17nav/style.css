@@ -1,0 +1,89 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background-color: #70a1ff;
+}
+
+.container {
+  width: 500px;
+  margin: auto;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+  background-color: #70a1ff;
+}
+
+.container ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.container .svg-wraper {
+  width: 100%;
+  font-size: 0;
+  position: relative;
+}
+
+.container .svg-wraper svg {
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  transition: all .3s;
+  width: 200px;
+  height: 40px;
+}
+
+.container .nav {
+  display: flex;
+  background-color: #333545;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.container .nav li {
+  cursor: pointer;
+  width: 100px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.container .nav li span {
+  position: relative;
+  z-index: 1;
+  transition: all .3s;
+  color: gray;
+  font-size: 1.5em;
+}
+
+.container .nav li .circle {
+  position: absolute;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: all .3s;
+  background-color: #70a1ff;
+  width: 80px;
+  height: 80px;
+  z-index: 0;
+}
+
+.container .nav li.active .circle {
+  top: 40%;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.container .nav li.active span {
+  transform: translateY(-8px);
+  color: #fff;
+}

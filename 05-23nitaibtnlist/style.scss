@@ -1,0 +1,154 @@
+$light-grey: #E7EEF7;
+
+$color: $light-grey;
+$lighter-5: lighten($color, 5%);
+$darker-5: darken($color, 5%);
+$darker-10: darken($color, 10%);
+$darker-15: darken($color, 15%);
+$darker-20: darken($color, 20%);
+$darker-25: darken($color, 25%);
+$darker-30: darken($color, 30%);
+
+$flat: rgba(white, 1);
+$flat-24: transparentize($flat, 0.76);
+$flat-70: transparentize($flat, 0.30);
+
+$states: (
+	red: #F56565,
+	blue: #4299E1,
+	green: #48BB78,
+	orange: #ED8936,
+	yellow: #D69E2E,
+	teal: #38B2AC,
+	indigo: #667EEA,
+	purple: #9F7AEA,
+	pink: #ED64A6
+);
+
+html,body{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+*,*::before,*::after{
+	box-sizing: inherit;
+}
+
+@mixin transition {
+	transition: all 120ms ease-out 0s;
+}
+
+body{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: $color;
+}
+
+button{
+	cursor: pointer;
+	color: inherit;
+	&:active,&:focus{
+		outline: 0;
+	}
+}
+
+.list{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	width: auto;
+	margin: auto;
+	display: grid;
+	grid-column-gap: 40px;
+	grid-row-gap: 40px;
+	grid-template-columns: repeat(3, 1fr);
+	.item{
+		text-align: center;
+	}
+}
+
+button{
+	display: flex;
+	width: 88px;
+	height: 88px;
+	padding: 0;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-radius: 24px;
+	border: 0;
+	color: desaturate($darker-30, 20%);
+	background-color: transparent;
+	position: relative;
+	box-shadow: 8px 8px 24px $darker-10, 
+				-8px -8px 24px $flat,
+				-2px -2px 2px $flat;
+	@include transition;
+
+	&::before{
+		content: '';
+		position: absolute;
+		border-radius: 24px;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		filter: blur(2px);
+		border: 2px solid transparent;
+		@include transition;
+	}
+	&::after{
+		content: '';
+		position: absolute;
+		border-radius: 24px;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		@include transition;
+	}
+
+	&:hover{
+		&::before{
+			background: $flat-24;
+		}
+	}
+
+	.button-icon{
+		@include transition;
+		font-size: 25px;
+	}
+	.button-txt{
+		display: block;
+		margin-top: 8px;
+		font-size: 14px;
+		font-weight: 700;
+		font-weight: bold;
+		@include transition;
+	}
+
+}
+
+button.active{
+	background: linear-gradient(to top, $darker-5, $lighter-5);
+	box-shadow: inset 2px 2px 8px $darker-25,
+				inset 8px 8px 16px $darker-15,
+				inset -4px -4px 8px $flat,
+				2px 2px 8px $darker-20,
+				-2px -2px 2px $flat-70;
+	&::before{
+		border-color: #fff;
+		box-shadow: 0px 4px 16px $flat;
+	}
+	&::after{
+		box-shadow: inset 0px 0px 16px $flat;
+	}
+}
+
+@each $key,$val in $states {
+	.txt-#{$key}{
+		color: $val;
+	}
+}
+

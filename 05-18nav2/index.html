@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4071421_qvmrurzmz5q.css">
+    <style class="style1"></style>
+    <style class="style2"></style>
+</head>
+<body>
+    <div class="container">
+        <ul class="list">
+            <div class="circle"></div>
+            <div class="svg-wraper">
+                <svg viewBox="0 0 200 30">
+                    <!--画的不是很好看，画个大概-->
+                    <path id="mypath" fill="#2f0946" d="M0,0 Q10,0 15,10 C15,10 30,35 45,10 Q50,0 60,0"/>
+                </svg>
+            </div>
+           <li class="item"><span class="iconfont icon-home2"></span></li>
+           <li class="item active"><span class="iconfont icon-shopping-cart-fill"></span></li>
+           <li class="item"><span class="iconfont icon-user-fill"></span></li>
+           <li class="item"><span class="iconfont icon-book"></span></li>
+           <li class="item"><span class="iconfont icon-setting-filling"></span></li>
+        </ul>
+    </div>
+
+
+    <script>
+
+        const pathEl = document.getElementById('mypath')
+        const itemList = document.querySelectorAll('li.item')
+
+        const activeItem = document.querySelector('.item.active')
+        const circleEl = document.querySelector('.circle')
+
+        const svgWraper = document.querySelector('.svg-wraper')
+
+        //svg凹点距离容器的距离
+        const svgCenter = 90
+
+        const styleEl = document.querySelector('.style1')
+        const styleEl2 = document.querySelector('.style2')
+
+        let flag = true // 防止频繁点击
+
+
+        // 小球的x位置  当前点击的li的lfet + 当前点击的li的一半宽度，得到当前点击的li的中心点x，left属性是元素的最左边，所以还要减去小球的一半，让小球的中心对应li的中心
+        circleEl.style.left = `${activeItem.offsetLeft + activeItem.offsetWidth/2 - circleEl.offsetWidth/2}px`
+
+
+        itemList.forEach((item, index) => {
+            item.onclick = function(){
+
+                if(!flag) true
+                flag = false
+
+                // 清除所有li节点的 active 类名
+                itemList.forEach(el => el.className = "item")
+
+                // 让当前点击的li加上active类名
+                item.className = `item active`
+
+                // svg凹槽弹起
+                pathEl.style.animation = 'none'
+                pathEl.style.transition = 'all .18s ease-out'
+                pathEl.setAttribute('d',"M0,0 Q10,0 15,0 C15,0 30,0 45,0 Q50,0 60,0")
+
+                
+                const w = item.offsetWidth // li的宽度
+                const resultLeft = (item.offsetLeft + w/2) - circleEl.offsetWidth/2 //跟50行那里同道理
+
+
+                const circleElOffsetLeft = circleEl.offsetLeft // 小球当前所在位置的left
+                const left = resultLeft - circleElOffsetLeft // 小球应该移动的距离 负数就是往左边  正数就是往右
+
+                //小球的高度
+                const cHeight = circleEl.offsetHeight
+
+                // 防止名字一样不执行动画
+                const stamp = new Date().getTime()
+                // 动画
+                const animationContent = `
+                    @keyframes toBottom${stamp} {
+                        0%{
+                            left:${circleElOffsetLeft}px;
+                            top: 0;
+                        }
+                        25%{
+                            left:${circleElOffsetLeft + left * 0.25}px;
+                            top:-${cHeight}px;
+                        }
+                        50%{
+                            left:${circleElOffsetLeft + left*0.5}px;
+                            top:-${cHeight * 1.2}px;
+                        }
+                        75%{
+                            left:${circleElOffsetLeft + left*0.95}px;
+                            top:-${cHeight}px;
+                        }
+                        85%{
+                            left:${circleElOffsetLeft + left}px;
+                            top:${cHeight*0.3}px;
+                        }
+                        95%{
+                            left:${circleElOffsetLeft + left}px;
+                            top: -${cHeight*0.5}px;
+                        }
+                        100%{
+                            left:${circleElOffsetLeft + left}px;
+                            top:0;
+                        }
+
+                    }
+                
+                `
+                styleEl.innerHTML = animationContent
+
+                circleEl.style.animation = `toBottom${stamp} .5s linear forwards`
+
+
+                // svg凹槽弹起后 更改svg的位置
+                setTimeout(() => {
+                    svgWraper.style.left = `${(item.offsetLeft + item.offsetWidth/2) - svgCenter}px`
+                },150)
+
+                // 当小球开始下降到指定的位置上方时，凹槽开始动画
+                setTimeout(() => {
+                    const animationText = `
+                        @keyframes sert${stamp} {
+                            0%{
+                                d: path("M0,0 Q10,0 15,0 C15,0 30,0 45,0 Q50,0 60,0");
+                            }
+                            50%{
+                                d: path("M0,0 Q10,0 15,10 C15,10 30,35 45,10 Q50,0 60,0");
+                            }
+                            75%{
+                                d: path("M0,0 Q10,0 15,10 C15,10 30,38 45,10 Q50,0 60,0");
+                            }
+                            85%{
+                                d: path("M0,0 Q10,0 15,10 C15,10 30,31 45,10 Q50,0 60,0");
+                            }
+                            95%{
+                                d: path("M0,0 Q10,0 15,10 C15,10 30,36 45,10 Q50,0 60,0");
+                            }
+                            100%{
+                                d: path("M0,0 Q10,0 15,10 C15,10 30,35 45,10 Q50,0 60,0");
+                            }
+
+                        }
+                    `
+
+                    styleEl2.innerHTML = animationText
+                    pathEl.style.animation = `sert${stamp} .3s linear forwards`
+                }, 300)
+                
+
+
+                // 圆球位置变完后更改left值
+                setTimeout(() => {
+                    flag = true
+                    circleEl.style.left = `${circleElOffsetLeft + left}px`
+                }, 800)
+
+            }
+
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拟态按钮</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4081266_s69slihhusd.css">
+</head>
+
+<body>
+
+    <ul class="list">
+        <li class="item">
+            <button data-colortype="pink">
+                <i class="button-icon iconfont icon-iconfontphone"></i>
+                <span class="button-txt">Phone</span>
+            </button>
+        </li>
+        <li class="item">
+            <button data-colortype="blue">
+                <i class="button-icon iconfont icon-battery"></i>
+                <span class="button-txt">Battery</span>
+            </button>
+        </li>
+        <li class="item">
+            <button data-colortype="green">
+                <i class="button-icon iconfont icon-data-f"></i>
+                <span class="button-txt">Data</span>
+            </button data-colortype="pink">
+        </li>
+        <li class="item">
+            <button data-colortype="orange">
+                <i class="button-icon iconfont icon-wifi"></i>
+                <span class="button-txt">Wifi</span>
+            </button data-colortype="pink">
+        </li>
+        <li class="item">
+            <button data-colortype="yellow">
+                <i class="button-icon iconfont icon-bluetoothon"></i>
+                <span class="button-txt">Blue</span>
+            </button>
+        </li>
+        <li class="item">
+            <button data-colortype="teal">
+                <i class="button-icon iconfont icon-Eyes"></i>
+                <span class="button-txt">Eyes</span>
+            </button>
+        </li>
+        <li class="item">
+            <button data-colortype="indigo">
+                <i class="button-icon iconfont icon-Flashlight"></i>
+                <span class="button-txt">Light</span>
+            </button>
+        </li>
+        <li class="item">
+            <button data-colortype="purple">
+                <i class="button-icon iconfont icon-send"></i>
+                <span class="button-txt">Phone</span>
+            </button>
+        </li>
+        <li class="item">
+            <button data-colortype="pink">
+                <i class="button-icon iconfont icon-moon"></i>
+                <span class="button-txt">Moon</span>
+            </button>
+        </li>
+    </ul>
+
+    <script>
+        const btns = document.querySelectorAll('button')
+
+
+        btns.forEach(dom => {
+            dom.onclick = () => {
+                const isActive = dom.classList.contains('active')
+
+                const colortype = dom.dataset.colortype
+
+                isActive ? dom.classList.remove(`txt-${colortype}`) : dom.classList.add(`txt-${colortype}`)
+
+                dom.classList.toggle("active")
+
+            }
+        })
+
+    </script>
+
+</body>
+
+</html>

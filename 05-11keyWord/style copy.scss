@@ -1,0 +1,130 @@
+$light-grey: #E7EEF7;
+
+$color: $light-grey;
+$lighter-5: lighten($color, 5%);
+$darker-5: darken($color, 5%);
+$darker-10: darken($color, 10%);
+$darker-15: darken($color, 15%);
+$darker-20: darken($color, 20%);
+$darker-25: darken($color, 25%);
+$darker-30: darken($color, 30%);
+
+$flat: rgba(white, 1);
+$flat-24: transparentize($flat, 0.76);
+$flat-70: transparentize($flat, 0.30);
+
+$states: (
+	red: #F56565,
+	blue: #4299E1,
+	green: #48BB78,
+	orange: #ED8936,
+	yellow: #D69E2E,
+	teal: #38B2AC,
+	indigo: #667EEA,
+	purple: #9F7AEA,
+	pink: #ED64A6
+);
+
+
+
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+}
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.container{
+    margin: auto;
+    width: 100%;
+    .inp{
+        margin: 15px auto;
+        text-align: center;
+        input{
+            width: 60%;
+            height: 50px;
+            padding: 0 15px;
+            outline: none;
+            border: none;
+            box-shadow: 2px 0 8px #aaa inset;
+            border-radius: 5px;
+            &::placeholder{
+                font-weight: bold;
+                font-size: 20px;
+                color: #aaa;
+                text-align: center;
+            }
+        }
+    }
+
+    .pan{
+        width: 90%;
+        margin: 0 auto;
+        border-radius: 15px;
+        box-shadow: 2px 0 8px #aaa inset;
+        background-color: rgb(232, 236, 239);
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        .left_container{
+            width: 60%;
+        }
+        .list{
+            display: flex;
+            flex-wrap: nowrap;
+        }
+        .item{
+            min-width: 2.7vw;
+            height: 2.7vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: -2px -2px 2px #fff, 2px 2px 2px #262626;
+            color: #868282;
+            margin-right: 15px;
+            margin-bottom: 15px;
+            padding: 2px 2px;
+            box-sizing: border-box;
+            font-size: 12px;
+            &.none{
+                box-shadow: none;
+            }
+            &.small_margin{
+                margin-right: 0;
+                min-width: 1.3vw;
+            }
+            &.last{
+                flex: 1;
+            }
+            &.db{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                div{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+            &.active{
+                background-color: yellowgreen; 
+            }
+        }
+        .right_container{
+            .wraper{
+                display: flex;
+                .rt{
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+
+}

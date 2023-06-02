@@ -1,0 +1,44 @@
+body{
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    padding-top: 100px;
+    background-color: rgba($color: #000000, $alpha: 0.2);
+    margin: 0;
+}
+.container{
+    width: 400px;
+    height: 200px;
+    position: relative;
+    margin: 0 auto;
+    .item{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-shadow: 10px 10px 20px rgba($color: #000000, $alpha: 1);
+        transition: all .8s;
+        img{
+            display: block;
+            width: 100%;
+            object-fit: contain;
+        }
+        
+        @for $i from 1 through 4{
+            &:nth-child(#{$i}){
+                margin-top: #{$i * 100}px;
+                transform: rotateX(45deg) rotateY(-15deg) rotate(45deg);
+                z-index: 5 - $i;
+                opacity: 0.8;
+                &.active{
+                    transform: rotateX(0) rotateY(0) rotate(0) translateY(150px) scale(2);
+                    z-index: 6;
+                    top: 50%;
+                    margin-top: -100px;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

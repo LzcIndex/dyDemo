@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            cursor: all-scroll;
+            background-color: #000;
+        }
+
+        #my-canvas{
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="my-canvas"></canvas>
+
+    <script>
+        const colors = ['#ff3f4a', '#ffd16d', '#ff9b78', '#ff8d4c', '#fff013', '#ff3113', '#ffac83', '#ffc546']
+
+        const c = document.querySelector('#my-canvas')
+
+        c.width = window.innerWidth
+        c.height = window.innerHeight
+
+        const ctx = c.getContext("2d")
+
+        // 类似重力加速度吧。。
+        const g = 0.5
+
+
+        const mousePos = {
+            x: 0,
+            y: 0
+        }
+
+        // 小球列表
+
+        const circleList = []
+
+        // 随机小数
+        function getRadomFloat(min, max){
+            return (Math.random() * (max-min) + min).toFixed(2)
+        }
+
+        // 随机整数
+
+        function getRadomInt(min, max){
+            min = Math.ceil(min)
+            max = Math.floor(max)
+
+            return Math.floor(Math.random() * (max -min)) + min
+        }
+
+
+        
+
+        class Circle{
+            constructor(x, y, r, color){
+                this.x = x
+                this.y = y
+                this.r = r
+                this.color = color
+
+                this.ySpeed = getRadomInt(-3, 1)
+                this.xSpeed = getRadomFloat(-1.5,1.5)
+
+                this.ay = 0.1
+
+                // 标记
+
+                this.isDie = false
+                // 是否已经触底
+                this.fistBottom = false
+
+            }
+
+            draw(){
+                ctx.beginPath()
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2)
+                ctx.fillStyle = this.color
+                ctx.fill()
+            }
+
+            updatePos(){
+
+                this.x -= this.xSpeed
+                
+                this.r -= 0.22
+
+                this.r = this.r < 0 ? 0.1 : this.r
+
+                this.y += (this.ySpeed += this.ay)
+
+                ctx.beginPath()
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2)
+                ctx.fillStyle = this.color
+                ctx.fill()
+
+                // 回弹后速度超过5就干掉
+                if((this.ySpeed > 5) && this.fistBottom){
+                    this.isDie = true
+                }
+
+                // 触底
+                if((this.y + this.r) >=  window.innerHeight){
+
+                    this.y = window.innerHeight - this.r
+
+                    // 弹起
+                    this.ySpeed *= -g
+                    this.xSpeed *= g
+
+                    
+                    // 速度太小了就干掉
+                    if(Math.abs(this.ySpeed) < 2){
+                        console.log(Math.abs(this.ySpeed));
+                        console.log(1111);
+                        this.isDie = true
+                    }
+
+                    this.fistBottom = true
+
+                }
+
+            }
+        }
+
+
+        c.addEventListener('mousemove', function(e){
+            mousePos.x = e.offsetX
+            mousePos.y = e.offsetY
+        })
+
+
+        function render(){
+
+            // 创建
+            for (let i = 0; i < 5; i++) {
+                const size = getRadomInt(15, 30)
+
+                const offset = getRadomInt(-5,5)
+
+                const circleItem = new Circle(mousePos.x - offset, mousePos.y - offset, size, colors[getRadomInt(0,7)])
+
+                circleItem.draw()
+
+                circleList.push(circleItem)
+                
+            }
+
+            // 更新位置
+
+            ctx.clearRect(0,0, window.innerWidth, window.innerHeight)
+            for (let i = 0; i < circleList.length; i++) {
+                const item = circleList[i];
+                if(!item.isDie){
+                    item.updatePos()
+                }
+            }
+
+            requestAnimationFrame(render)
+
+        }
+
+        render()
+
+    </script>
+</body>
+</html>

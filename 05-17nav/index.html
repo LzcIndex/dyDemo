@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4071421_qvmrurzmz5q.css">
+</head>
+<body>
+    <div class="container">
+        <div class="svg-wraper">
+            <svg>
+                <path fill="#333545" 
+                    d="M0 40
+                       C0 40, 20 38, 50 20
+                       C50 20, 100-15, 150 20
+                       C150 20, 170 34, 200 40 
+                    "
+                />
+            </svg>
+        </div>
+        <ul class="nav">
+            <li class="item">
+                <div class="circle"></div>
+                <span class="iconfont icon-home2"></span>
+            </li>
+            <li class="item active">
+                <div class="circle"></div>
+                <span class="iconfont icon-shopping-cart-fill"></span>
+            </li>
+            <li class="item">
+                <div class="circle"></div>
+                <span class="iconfont icon-user-fill"></span>
+            </li>
+            <li class="item">
+                <div class="circle"></div>
+                <span class="iconfont icon-book"></span>
+            </li>
+            <li class="item">
+                <div class="circle"></div>
+                <span class="iconfont icon-setting-filling"></span>
+            </li>
+        </ul>
+    </div>
+    <script>
+        const colors = ['#7bed9f', '#70a1ff', '#5352ed', '#2ed573', '#1e90ff']
+    
+        const items = document.querySelectorAll('.item')
+        const svg = document.querySelector('svg')
+        const container = document.querySelector('.container')
+
+
+        items.forEach((item, index) => {
+            item.onclick = function(e){
+
+                items.forEach(el => el.className="item")
+
+                item.querySelector('.circle').style =  `background-color:${colors[index]}`
+                container.style = `background-color:${colors[index]}`
+                document.body.style = `background-color:${colors[index]}`
+
+                item.className = 'item active'
+
+
+                // 50是设定好的，svg宽度200，中间占用100，两边50，li宽度100，这样中间就可以刚好在li的正上方
+                const left = index * 100 - 50
+
+                svg.style = `left: ${left}px`
+
+            }
+        });
+    
+    </script>
+</body>
+</html>

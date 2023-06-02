@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="wraper">
+        <div class="content"></div>
+    </div>
+
+    <script>
+
+        const colors = ['#f6e58d', '#f9ca24', '#7ed6df', '#22a6b3', '#686de0', '#e056fd', '#30336b', '#c7ecee']
+
+        const contentEl = document.querySelector('.content')
+
+        // 存储目前的小碎片
+        const roundList = []
+
+        // 定时器
+        let timer = null
+        let timer2 = null
+
+        // 随机区间内的整数
+        function getRadomInt(min, max){
+            min = Math.ceil(min)
+            max = Math.floor(max)
+            return Math.floor(Math.random() * (max - min)) + min
+        }
+
+        // 随机区间内的数（包含小数）
+        function getRadomFloat(min, max){
+            return ((Math.random() * (max - min)) + min).toFixed(2)
+        }
+
+
+        class Round{
+            constructor(x, y, color, width, height ){
+                this.ySpeed = getRadomInt(-4,-2) //y速度
+                this.xOffset = getRadomFloat(1,2) //x偏移量
+
+                this.x = x
+                this.y = y
+                this.color = color
+                this.w = width
+                this.h = height
+                this.el = null
+            }
+
+            // 创建节点
+            createEl(){
+                const el = document.createElement('span')
+                el.className = 'round'
+                el.style = `width:${this.w}px;height:${this.h}px;left:${this.x}px;top:${this.y}px;background-color:${this.color}`
+                document.body.appendChild(el)
+                this.el = el
+            }
+
+            updatePos(){
+                if(this.el){
+                    this.ySpeed += 0.08
+
+                    this.y += this.ySpeed
+
+                    this.x -= this.xOffset
+
+                    this.el.style = `width:${this.w}px;height:${this.h}px;left:${this.x}px;top:${this.y}px;background-color:${this.color}`
+
+                    //超出
+                    if(this.y >= window.innerHeight){
+                        this.deleteEl()
+                    }
+
+                }
+            }
+
+            // 删除
+            deleteEl(){
+                this.el.remove()
+                this.el = null
+            }
+
+        }
+
+
+        // 进度条
+        function progress(widthPrecent, flag){
+
+            contentEl.style = `width:${widthPrecent}%`
+
+            // 碎片开始生产
+
+            if(flag){
+                const rects = contentEl.getClientRects()[0]
+
+                const round = new Round(rects.x + rects.width - 5, rects.y,colors[getRadomInt(0, 8)], getRadomInt(5, 8), getRadomInt(5, 8))
+            
+                round.createEl()
+
+                roundList.push(round)
+
+                // 开始更新碎片的位置
+                if(roundList.length === 1){
+                    startUpdatePos()
+                }
+            }
+
+        }
+
+        function startUpdatePos(){
+
+            clearInterval(timer)
+            timer = setInterval(() => {
+                if(!roundList.length){
+                    clearInterval(timer)
+                }
+
+                for (let i = 0; i < roundList.length; i++) {
+                    const item = roundList[i];
+
+                    if(!item.el){
+                        roundList.splice(i, 1)
+                        i--
+                    }else {
+                        item.updatePos()
+                    }
+                    
+                }
+            }, 16)
+        }
+
+        // 主程序
+
+        function start(){
+            let widthPrecent = 0
+            let ind = 0
+            clearInterval(timer2)
+            timer2 = setInterval(() => {
+
+                ind = ind > 1000 ? 0 : ind+1
+
+                widthPrecent+=0.1
+
+                if(widthPrecent > 100){
+                    clearInterval(timer2)
+                    // widthPrecent = 100
+                    return
+                }
+
+                progress(widthPrecent, ind%2 === 0)
+            }, 16)
+        }
+
+        start()
+
+    </script>
+</body>
+</html>

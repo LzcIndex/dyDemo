@@ -1,0 +1,123 @@
+$bgColor: #00ff2a;
+html,body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+.container{
+    width: 300px;
+    height: 600px;
+    margin: auto;
+    position: relative;
+    .text{
+        position: absolute;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        z-index: 999;
+        font-weight: bold;
+    }
+    .content-wraper{
+        background-color: #000;
+        width: 300px;
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+        filter: contrast(10) hue-rotate(0);
+        animation: hueRotate 10s infinite linear;
+        .round{
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%, -50%);
+            filter: blur(8px);
+            &::after{
+                content: '';
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                background-color: $bgColor;
+                width: 200px;
+                height: 200px;
+                border-radius: 42% 38% 62% 49% / 45%;
+                animation: rotate 10s infinite linear;
+            }
+            &::before{
+                content: '';
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                width: 175px;
+                height: 175px;
+                background-color: #000;
+                z-index: 10;
+                border-radius: 50%;
+
+            }
+        }
+        .chassis{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            left: 50%;
+            bottom: 0%;
+            width: 120px;
+            height: 40px;
+            border-radius: 100px 100px 0 0;
+            background-color: $bgColor;
+            transform: translate(-50%, 0);
+            filter: blur(4px);
+            li{
+                position: absolute;
+                border-radius: 50%;
+                background-color: $bgColor;
+            }
+            @for $i from 0 through 16 {
+                li:nth-child(#{$i}){
+                    $w: 15 + random(15) + px;
+                    left: 15 + random(70) + px;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    width: $w;
+                    height: $w;
+                    animation: toTop #{random(6) + 2}s ease-in-out -#{random(4000) / 1000}s infinite;
+                }
+            }
+        }
+    }
+}
+
+@keyframes hueRotate{
+    100%{
+        filter: contrast(15) hue-rotate(360deg);
+    }
+}
+
+@keyframes rotate {
+    50%{
+        border-radius: 45% / 42% 38% 58% 49%;
+    }
+    100%{
+        transform: translate(-50%, -50%) rotate(720deg);
+    }
+}
+
+@keyframes toTop {
+    80%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0.1;
+        transform: translate(-50%, -280px);
+    }
+}

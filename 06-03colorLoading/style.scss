@@ -1,0 +1,103 @@
+html,body{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    overflow: hidden;
+}
+
+.container{
+    width: 40vw;
+    height: 40vw;
+    margin: auto;
+    position: relative;
+    animation: moveRotate 5s linear infinite;
+    .common{
+        height: 5vw;
+        width: 2vw;
+        margin: auto;
+        position: absolute;
+        border-radius: 0 10vw 0 10vw;
+        box-shadow: inset 0vw 0vw 0vw .1vw #E645D0, 0vw 0vw 1.5vw 0vw #E645D0;
+    }
+    .one{
+        transform: rotate(45deg);
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 7.5vw;
+        animation: boxShadow 1s ease infinite;
+    }
+    .two{
+        transform: rotate(90deg);
+        left: 5.5vw;
+        right: 0;
+        top: 0;
+        bottom: 5.5vw;
+        animation: boxShadow 1s  .125s ease infinite;
+    }
+    .three{
+        transform: rotate(135deg);
+        left: 7.5vw;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        animation: boxShadow 1s  .25s ease infinite;
+    }
+    .four{
+        transform: rotate(180deg);
+        left: 5.5vw;
+        right: 0;
+        top: 5.5vw;
+        bottom: 0;
+        animation: boxShadow 1s  .375s ease infinite;
+    }
+    .five{
+        transform: rotate(225deg);
+        left: 0;
+        right: 0;
+        top: 7.5vw;
+        bottom: 0;
+        animation: boxShadow 1s  .5s ease infinite;
+    }
+    .six{
+        transform: rotate(270deg);
+        left: 0;
+        right: 5.5vw;
+        top: 5.5vw;
+        bottom: 0;
+        animation: boxShadow 1s  .625s ease infinite;
+    }
+    .seven{
+        transform: rotate(315deg);
+        left: 0;
+        right: 7.5vw;
+        top: 0;
+        bottom: 0;
+        animation: boxShadow 1s  .75s ease infinite;
+    }
+    .eight{
+        transform: rotate(360deg);
+        left: 0;
+        right: 5.5vw;
+        top: 0;
+        bottom: 5.5vw;
+        animation: boxShadow 1s  .875s ease infinite;
+    }
+}
+
+@keyframes moveRotate {
+    0%{
+        transform: rotate(0);
+    }
+    100%{
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes boxShadow {
+    50%{
+        box-shadow:inset 0vw 0vw 0vw .1vw #17E1E6, 0vw 0vw 1.5vw 0vw #17E1E6;
+    }
+}

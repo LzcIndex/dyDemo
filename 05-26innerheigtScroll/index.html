@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="view">
+        <div class="content">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+        </div>
+    </div>
+
+    <div class="scrollbar">
+        <div class="scrollbar-drag"></div>
+    </div>
+
+    <ul class="btn-list hide">
+        <div class="line"></div>
+        <li class="btn-item active">
+            <p class="txt">首页</p>
+            <span class="icon"></span>
+        </li>
+        <li class="btn-item">
+            <p class="txt">蒙德</p>
+            <span class="icon"></span>
+        </li>
+        <li class="btn-item">
+            <p class="txt">璃月</p>
+            <span class="icon"></span>
+        </li>
+        <li class="btn-item">
+            <p class="txt">须弥</p>
+            <span class="icon"></span>
+        </li>
+        <li class="btn-item disable">
+            <p class="txt">敬请期待</p>
+            <span class="icon"></span>
+        </li>
+    </ul>
+
+    <script>
+
+
+        const items = document.querySelectorAll('.item')
+
+        const btnListEl = document.querySelector('.btn-list')
+        const btnItems = document.querySelectorAll('.btn-item:not([class*=disable])')
+
+        const contentEl = document.querySelector('.content')
+
+        const scrollbarEl = document.querySelector('.scrollbar')
+        const scrollbarDragEl = document.querySelector('.scrollbar-drag')
+
+        let currentIndex = 0 // 当前滚动到的index
+        let flag = false
+
+        // 初始化滚动条高度
+        const scHeight = (window.innerHeight / contentEl.offsetHeight) * scrollbarEl.offsetHeight
+        scrollbarDragEl.style.height = scHeight + 'px'
+
+        // 更改滚动条位置
+        function changeScroll(index){
+            const num = scHeight*index + scrollbarDragEl.offsetHeight >= scrollbarEl.offsetHeight ? (scrollbarEl.offsetHeight - scrollbarDragEl.offsetHeight) : scHeight * index
+            console.log(num);
+            scrollbarDragEl.style.top = num + 'px'
+        }
+
+        // 根据滚动条的top值计算出页面应该滚动的距离
+        function calcPagePos(scrollbarDragTop){
+            const marginTop = (scrollbarDragTop / scrollbarEl.offsetHeight) * contentEl.offsetHeight
+            contentEl.style.marginTop = -marginTop + 'px'
+
+            // 根据marginTop算出currentIndex
+            const num = marginTop % window.innerHeight
+            if(num > window.innerHeight / 2){
+                // 超过屏幕一半就向上取整，不许超出最大值
+                currentIndex = Math.ceil(marginTop / window.innerHeight)
+                currentIndex = currentIndex > (btnItems.length - 1) ? (btnItems.length - 1) : currentIndex
+            }else {
+                // 否则就向下取整
+                currentIndex = Math.floor(marginTop / window.innerHeight)
+            }
+
+            console.log(currentIndex);
+            changeActive(currentIndex, true)
+        }
+
+        // 更改容器的marginTop即页面滚动
+        function changeItem(index){
+            // 防止超出， 比如最后一个item只有半屏的高度，那就不能直接滚动一整屏， 只能滚动到只剩下一屏 容器高度-数量*整屏是否小于等于一整屏，是那就滚动到只剩下一屏
+            const num = (contentEl.offsetHeight - (index * window.innerHeight)) <= window.innerHeight ? (contentEl.offsetHeight - window.innerHeight) : index*window.innerHeight
+            contentEl.style.marginTop = -num + 'px'
+        }
+
+        // 更改按钮活跃状态
+        function changeActive(index, flag){
+            currentIndex = index
+            // 考虑按钮数量与item数量不一致的情况，比如下面还有公司信息，但不计入按钮的数量
+            if(currentIndex <= btnItems.length - 1){
+                btnItems.forEach(o => o.className = 'btn-item')
+                btnItems[currentIndex].className = 'btn-item active'
+            }
+
+            // 设置按钮隐藏以及显示
+            if(currentIndex > btnItems.length - 1 || currentIndex === 0){
+                btnListEl.className = 'btn-list hide'
+            }else {
+                btnListEl.className = 'btn-list'
+            }
+
+            if(!flag){
+                changeItem(index)
+            }
+
+
+        }
+
+        // 按钮添加点击事件
+        btnItems.forEach((dom, index) => {
+            dom.onclick = function(){
+                currentIndex = index
+                changeActive(currentIndex)
+                changeScroll(currentIndex)
+            }
+        })
+
+
+        // 事件
+
+
+        // 容器执行完动画
+        contentEl.addEventListener('transitionend', function(e){
+            flag = false
+        })
+
+        // 鼠标滚轮事件
+        document.addEventListener('wheel', function(e){
+
+            if(flag) return // 防止重复触发
+
+
+            let _currentIndex = currentIndex
+
+            // 向下
+            if(e.deltaY > 0){
+                currentIndex = currentIndex >= items.length-1 ? items.length-1 : currentIndex+1
+            }else{
+                currentIndex = currentIndex <= 0 ? 0 : currentIndex-1
+            }
+            console.log(currentIndex);
+
+
+            // 只有滚动了才需要锁住不让用户一直触发
+            if(_currentIndex !== currentIndex){
+                flag = true
+            }
+
+            changeScroll(currentIndex)
+            changeActive(currentIndex)
+
+
+        })
+
+        // 滚动条
+        scrollbarEl.addEventListener('mousedown', function(e){
+            e.preventDefault()
+
+            if(e.target !== scrollbarDragEl){
+                scrollbarDragEl.style.transitionDuration = '0s'
+
+                // 更新滚动条位置
+                let pos = e.clientY - (scrollbarDragEl.offsetHeight / 2)
+                if(pos < 0){
+                    pos = 0
+                }else if((pos + scrollbarDragEl.offsetHeight) > scrollbarEl.offsetHeight){
+                    pos = scrollbarEl.offsetHeight - scrollbarDragEl.offsetHeight
+                }
+
+                scrollbarDragEl.style.top = pos + 'px'
+                calcPagePos(pos)
+            }
+
+            document.onmousemove = function(em){
+                // 一边拖动一边改变滚动条位置
+                scrollbarDragEl.style.transitionDuration = '0s'
+                contentEl.style.transitionDuration = '0s'
+                let top = scrollbarDragEl.offsetTop + em.movementY
+                if(top < 0){
+                    top = 0
+                }else if(top + scrollbarDragEl.offsetHeight > scrollbarEl.offsetHeight){
+                    top = scrollbarEl.offsetHeight - scrollbarDragEl.offsetHeight
+                }
+                scrollbarDragEl.style.top = top + 'px'
+                calcPagePos(scrollbarDragEl.offsetTop)
+
+            }
+
+            document.onmouseup = function(){
+                document.onmousemove = null
+                scrollbarDragEl.style.transitionDuration = '.8s'
+                contentEl.style.transitionDuration = '.8s'
+                changeActive(currentIndex)
+                changeScroll(currentIndex)
+            }
+
+        })
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,53 @@
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to right, #fe6658, #0ca5c2);
+}
+
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.container .item {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  width: 50px;
+  line-height: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 0;
+  visibility: hidden;
+}
+
+.container .item:hover {
+  color: yellow;
+}
+
+.container .item.main {
+  position: relative;
+  z-index: 10;
+  visibility: visible;
+  overflow: hidden;
+}
+
+.container .item.main span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all .3s;
+}
+
+.container .item.main span.active-txt {
+  opacity: 0;
+  transform: translate(-50%, 0);
+}

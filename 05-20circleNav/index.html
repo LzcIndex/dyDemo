@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4071421_qvmrurzmz5q.css">
+    <style id="style-seft">
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="item main">
+            <span class="default-txt">三</span>
+            <span class="active-txt">x</span>
+        </div>
+        <div class="item"><i class="iconfont icon-home2"></i></div>
+        <div class="item"><i class="iconfont icon-shopping-cart-fill"></i></div>
+        <div class="item"><i class="iconfont icon-user-fill"></i></div>
+        <div class="item"><i class="iconfont icon-book"></i></div>
+        <div class="item"><i class="iconfont icon-setting-filling"></i></div>
+        <div class="item"><i class="iconfont icon-user-fill"></i></div>
+        <div class="item"><i class="iconfont icon-shopping-cart-fill"></i></div>
+        <div class="item"><i class="iconfont icon-book"></i></div>
+    </div>
+    <script>
+        const mainEl = document.querySelector('.item.main')
+
+        const items = document.querySelectorAll('.item:not([class*="main"])')
+
+        const styleEl = document.querySelector('#style-seft')
+
+        let isOpen = false // 打开状态
+        let isMoveing = false //动画是否在执行
+
+        //每个元素的translateX和translateY的值，这边设定的是以main为中心，以100px为半径画圆，a^2 + b^2 = c^2  c就是半径，而这边a和b是相等的，所以可以得出a 约等于71
+
+        const itemXY = [[0,-100], [71,-71], [100,0],[71,71],[0,100],[-71,71],[-100,0],[-71,-71]]
+
+
+        // 添加动画 名字加上index是为了跟下面的dom对应上
+        window.onload = function(){
+            for (let index = 0; index < itemXY.length; index++) {
+                // 弹出的动画
+                const aniTxt1 = `
+                @keyframes move${index}{
+                    0%{
+                        visibility: hidden;
+                        transform: translate(0,0)
+                    }
+                    50%{
+                        visibility: hidden;
+                    }
+                    80%{
+                        visibility: hidden;
+                        transform: translate(${itemXY[index][0]?itemXY[index][0] + 20 : itemXY[index][0]}px,${itemXY[index][1]?itemXY[index][1] + 20 : itemXY[index][1]}px)
+                    }
+                    90%{
+                        visibility: visible;
+                        transform: translate(${itemXY[index][0]?itemXY[index][0] + 10 : itemXY[index][0]}px,${itemXY[index][1]?itemXY[index][1] + 10 : itemXY[index][1]}px)
+                    }
+                    100%{
+                        visibility: visible;
+                        transform: translate(${itemXY[index][0]}px,${itemXY[index][1]}px)
+                    }
+                }
+                `
+                // 收回的动画
+                const aniTxt2 = `
+                @keyframes back${index}{
+                    0%{
+                        visibility: hidden;
+                        transform: translate(${itemXY[index][0]}px,${itemXY[index][1]}px)
+                    }
+                    10%{
+                        visibility: visible;
+                        transform: translate(${itemXY[index][0]?itemXY[index][0] + 10 : itemXY[index][0]}px,${itemXY[index][1]?itemXY[index][1] + 10 : itemXY[index][1]}px)
+                    }
+                    20%{
+                        visibility: hidden;
+                        transform: translate(${itemXY[index][0]?itemXY[index][0] + 20 : itemXY[index][0]}px,${itemXY[index][1]?itemXY[index][1] + 20 : itemXY[index][1]}px)
+                    }
+                    50%{
+                        visibility: hidden;
+                    }
+                    100%{
+                        visibility: hidden;
+                        transform: translate(0,0)
+                    }
+                }
+                `
+                styleEl.sheet.insertRule(aniTxt1, styleEl.sheet.cssRules.length)
+                styleEl.sheet.insertRule(aniTxt2, styleEl.sheet.cssRules.length)
+            }
+        }
+
+
+
+        mainEl.onclick =  function(){
+            if(isMoveing) return // 动画还在执行，直接return
+            isOpen = !isOpen // 改变打开/关闭状态
+
+
+            // 切换中心按钮的图标他们是竖直排列的，所以x不用变，变y就行
+            this.querySelector('.default-txt').style = `${isOpen ? 'opacity:0; transform: translate(-50%, -100%)' : 'opacity:1; transform: translate(-50%, -50%)'}`
+            this.querySelector('.active-txt').style = `${isOpen ? 'opacity:1; transform: translate(-50%, -50%)' : 'opacity:1; transform: translate(-50%, 100%)'}`
+
+        
+            items.forEach((dom, index) => {
+                isMoveing = true
+                const time = 200
+                if(!isOpen){
+                    // 添加收回的动画 并且更改x，y值
+                    dom.style.animation = `back${index} ${time / 1000}s ease-in ${(items.length - index) * (time / 1000)}s forwards`
+                    dom.style.transform = `transform: translate(0,0);`
+                    
+                    setTimeout(() => {
+                        if(index === items.length - 1){
+                            isMoveing = false
+                        }
+                    }, time + index*time)
+                
+                }else{
+                    // 添加弹出的动画 并且更改x，y值
+                    dom.style.visibility = 'hidden'
+                    dom.style.animation = `move${index} ${time / 1000}s ease-out ${index*(time/1000)}s forwards`
+                    dom.style.transform = `translate(${itemXY[index][0]}px,${itemXY[index][1]}px)`
+                    
+                    setTimeout(() => {
+                        dom.style.visibility = 'visible'
+                        if(index === items.length - 1){
+                            isMoveing = false
+                        }
+                    },  time + index*time)
+                
+                }
+            })
+        
+        }
+    </script>
+</body>
+</html>
