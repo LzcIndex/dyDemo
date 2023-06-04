@@ -1,0 +1,57 @@
+html,body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+}
+
+.container{
+    width: 340px;
+    height: 300px;
+    margin: auto;
+    perspective: 700px;
+    position: relative;
+    .card-one{
+        background-color: orange;
+        height: 100px;
+        position: absolute;
+        width: 100%;
+    }
+    .first-show{
+        background-color: purple;
+        height: 100px;
+        position: absolute;
+        width: 100%;
+        backface-visibility: hidden;
+
+    }
+    .first-behind{
+        background-color: yellowgreen;
+        height: 100px;
+    }
+    .second-show{
+        background-color: palevioletred;
+        height: 50px;
+    }
+    .five-container{
+        background-color: #000;
+        height: 50px;
+    }
+    .two-container{
+        transform-style: preserve-3d;
+        transform: rotate3d(1, 0, 0, -180deg);
+        transform-origin: bottom;
+        height: 100px;
+    }
+
+
+    .three-container{
+        position: absolute;
+        width: 100%;
+        transform: rotate3d(1, 0, 0, -180deg);
+        transform-origin: center;
+        height: 100px;
+        backface-visibility: hidden;
+    }
+
+}
