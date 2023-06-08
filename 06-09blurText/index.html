@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="text-wraper">
+        </div>
+    </div>
+
+    <script>
+
+        const textWraper = document.querySelector('.text-wraper')
+
+        const lieNum = 25
+
+        const textWraperWidth = textWraper.offsetWidth
+        const textWraperHeight = textWraper.offsetHeight
+
+
+        const itemWidth = textWraperWidth / lieNum
+
+
+        const fragment = document.createDocumentFragment();
+
+
+        // 随机区间内的整数
+        function getRadomInt(min, max){
+            min = Math.ceil(min)
+            max = Math.floor(max)
+            return Math.floor(Math.random() * (max - min)) + min
+        }
+
+
+        for (let i = 0; i < lieNum; i++) {
+            let num = Math.floor(lieNum / 3)
+            let maxY = ((i < num) || (i > (lieNum - num))) ? 100 : 500 
+
+            const element = document.createElement('span')
+            // element.style.width = itemWidth + 'px'
+            element.style.paddingTop = getRadomInt(0, textWraperHeight - 80) + 'px'
+            element.style.transform = `translateZ(${getRadomInt(15, maxY)}px)`
+            element.innerText = '测试文字'
+            fragment.appendChild(element)
+        }
+
+        textWraper.appendChild(fragment)
+
+
+    </script>
+</body>
+</html>
