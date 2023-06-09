@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    
+    <div class="container">
+        <ul class="list">
+            <li class="item">
+                <img src="./item-bg.jpg" alt="">
+                <div class="cricle-wraper">
+                    <div class="icon">
+                        <img src="./0.png" alt="">
+                    </div>
+                    <p class="desc">
+                        文字介绍
+                    </p>
+                </div>
+            </li>
+            <li class="item">
+                <img src="./item-bg.jpg" alt="">
+                <div class="cricle-wraper">
+                    <div class="icon">
+                        <img src="./0.png" alt="">
+                    </div>
+                    <p class="desc">
+                        文字数不定
+                    </p>
+                </div>
+            </li>
+            <li class="item">
+                <img src="./item-bg.jpg" alt="">
+                <div class="cricle-wraper">
+                    <div class="icon">
+                        <img src="./0.png" alt="">
+                    </div>
+                    <p class="desc">
+                        宽度不定
+                    </p>
+                </div>
+            </li>
+            <li class="item">
+                <img src="./item-bg.jpg" alt="">
+                <div class="cricle-wraper">
+                    <div class="icon">
+                        <img src="./0.png" alt="">
+                    </div>
+                    <p class="desc">
+                        画出变化图
+                    </p>
+                </div>
+            </li>
+            <li class="item">
+                <img src="./item-bg.jpg" alt="">
+                <div class="cricle-wraper">
+                    <div class="icon">
+                        <img src="./0.png" alt="">
+                    </div>
+                    <p class="desc">
+                        求出函数式
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+
+        window.onload = function(){
+
+            const contianerEl = document.querySelector('.container')
+
+            const ul = document.querySelector('.list')
+
+            const items = document.querySelectorAll('.cricle-wraper')
+
+
+            const scrollW = contianerEl.scrollWidth - window.innerWidth // 计算出滚动条长度
+            const itemHasW = scrollW / (items.length - 1) // 获取平均每个item占多少滚动宽度
+
+
+            const baseWidth = 50
+
+            // 根据当前滚动的距离计算出当前的width值
+            function getCurrentNum(minX,maxX,minY,maxY){
+                return function(x){
+                    if(x < minX){
+                        return minY
+                    }
+                    if(x > maxX){
+                        return minY
+                    }
+
+                    const centerX = (maxX + minX) / 2 // 求出中心点 即宽度最大的点
+                    // y = kx + b
+                    if(x <= centerX){
+                        const k = (maxY - minY) / (centerX - minX)
+                        return k * (x - minX) + minY
+                    }else{
+                        const k = (maxY - minY) / (centerX - maxX)
+                        return k * (x - centerX) + maxY
+                    }
+                }
+            }
+
+            const domMap = new Map()
+
+            // 填充map对象，以dom节点作为属性
+            function fillMap(){
+                items.forEach((dom, index) => {
+                    const descW = dom.querySelector('.desc').offsetWidth
+                    let minX = (index * itemHasW) - (itemHasW / 2)
+                    let maxX = (index * itemHasW) + (itemHasW / 2)
+                    domMap.set(dom, {
+                        width: getCurrentNum(minX, maxX, baseWidth, baseWidth + descW + 10, index)
+                    })
+
+                })
+            }
+
+            // 更新样式
+            function updateW(){
+                for (const [dom, value] of domMap) {
+                    Object.keys(value).forEach(prop => {
+                        dom.style[prop] = value[prop](contianerEl.scrollLeft) + 'px'
+                    })
+                }
+            }
+
+            contianerEl.addEventListener('scroll', updateW)
+
+            fillMap()
+            updateW()
+
+        }
+
+    </script>
+
+</body>
+
+</html>

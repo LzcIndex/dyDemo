@@ -1,0 +1,61 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  background-image: url("./666.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.container .wraper {
+  display: flex;
+  margin: auto;
+}
+
+.container .wraper .item {
+  margin: 0 15px;
+  cursor: pointer;
+  display: flex;
+  background-color: #02b6fd;
+  border-radius: 10px;
+  opacity: .5;
+  transition: all .3s;
+}
+
+.container .wraper .item .left {
+  width: 0px;
+  height: 100%;
+  transition: width .5s ease 0s;
+}
+
+.container .wraper .item .right {
+  width: 100px;
+  height: 300px;
+  writing-mode: vertical-rl;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 5px;
+  font-weight: bold;
+  font-size: 22px;
+  color: #fff;
+}
+
+.container .wraper .item.active {
+  opacity: 1;
+}
+
+.container .wraper .item.active .left {
+  width: 400px;
+}

@@ -17,7 +17,7 @@
 
         const textWraper = document.querySelector('.text-wraper')
 
-        const lieNum = 25
+        const lieNum = 31//列数
 
         const textWraperWidth = textWraper.offsetWidth
         const textWraperHeight = textWraper.offsetHeight
@@ -36,15 +36,27 @@
             return Math.floor(Math.random() * (max - min)) + min
         }
 
-
+        let speed = 60
+        let translateZ = 10
         for (let i = 0; i < lieNum; i++) {
-            let num = Math.floor(lieNum / 3)
-            let maxY = ((i < num) || (i > (lieNum - num))) ? 100 : 500 
+
+            // 得出中间数
+            let num = Math.floor(lieNum / 2)
+            if(i <= num){
+                translateZ += speed
+            }else {
+                translateZ -= speed
+            }
+            
 
             const element = document.createElement('span')
-            // element.style.width = itemWidth + 'px'
-            element.style.paddingTop = getRadomInt(0, textWraperHeight - 80) + 'px'
-            element.style.transform = `translateZ(${getRadomInt(15, maxY)}px)`
+            // 中间的那个加类名
+            if(i === num){
+                element.classList.add('center')
+            }else{
+                element.style.paddingTop = getRadomInt(0, textWraperHeight - 80) + 'px'
+            }
+            element.style.transform = `translateZ(${translateZ}px)`
             element.innerText = '测试文字'
             fragment.appendChild(element)
         }

@@ -1,0 +1,90 @@
+html,body{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.container{
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    .view{
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    .list{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+        .item{
+            margin: 0 15px;
+            position: relative;
+            &:hover{
+                .mask{
+                    opacity: 1;
+                    button{
+                        transform: translateY(0);
+                    }
+                }
+            }
+            img{
+                display: block;
+                border-radius: 5px;
+                border: 1px solid rgba($color: #000000, $alpha: .8);
+            }
+            .mask{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba($color: #000000, $alpha: .4);
+                opacity: 0;
+                transition: opacity .3s;
+                button{
+                    outline: none;
+                    border: none;
+                    background-color: #fff;
+                    padding: 12px 22px;
+                    border-radius: 1000px;
+                    display: inline-block;
+                    cursor: pointer;
+                    transform: translateY(30px);
+                    transition: transform .3s;
+                    &:hover{
+                        background-color: rgba($color: #fff, $alpha: .8);
+                    }
+                    .icon{
+                        vertical-align: text-top;
+                        margin-left: 5px;
+                        display: inline-block;
+                        width: 14px;
+                        height: 14px;
+                        border-radius: 50%;
+                        background-color: #1d1d1f;
+                        position: relative;
+                        &::after{
+                            content: '';
+                            position: absolute;
+                            top: 3px;
+                            left: 6px;
+                            display: block;
+                            border: 4px solid #fff;
+                            border-right-color: transparent;
+                            border-top-color: transparent;
+                            border-bottom-color: transparent;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

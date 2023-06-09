@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="view">
+            <ul class="list">
+                <li class="item">
+                    <img src="1.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="2.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="3.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="4.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="5.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="6.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="7.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="8.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="9.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="10.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+            </ul>
+            <ul class="list">
+                <li class="item">
+                    <img src="1.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="2.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="3.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="4.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="5.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="6.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="7.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="8.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="9.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+                <li class="item">
+                    <img src="10.jpg" alt="">
+                    <div class="mask"><button>现在就听<span class="icon"></span></button></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <script>
+
+        window.onload = function(){
+
+            let timer = null
+
+            const containerEl = document.querySelector('.container')
+            const ulEl = document.querySelector('.list')
+            const view = document.querySelector('.view')
+
+            let len = ulEl.offsetWidth
+            let x = 0
+            let speed = 0.5 // 速度
+
+            containerEl.onmouseenter = function(){
+                speed = 0.2
+            }
+
+            containerEl.onmouseleave = function(){
+                speed = 0.5
+            }
+
+
+            function animationStart(){
+                timer = setInterval(() => {
+                    x += speed
+                    if(x > len){
+                        x = 0
+                    }
+
+                    view.style = `will-change: transform; transform: translateX(${-x}px)`
+
+                })
+            }
+
+            animationStart()
+
+
+            document.addEventListener('visibilitychange', function(){
+                if(document.visibilityState === 'hidden'){
+                    clearInterval(timer)
+                }else {
+                    animationStart()
+                }
+            })
+
+        }
+
+    </script>
+
+</body>
+
+</html>
