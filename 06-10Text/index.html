@@ -9,53 +9,54 @@
 </head>
 <body>
     <div class="container">
-        <div class="text-wraper">
-        </div>
+        <div class="text-wraper"></div>
     </div>
 
+
     <script>
+        //添加文字
+
 
         const textWraper = document.querySelector('.text-wraper')
 
-        const lieNum = 31//列数
+        const lieNum = 31 // 列数
 
-        const textWraperWidth = textWraper.offsetWidth
         const textWraperHeight = textWraper.offsetHeight
-
-
-        const itemWidth = textWraperWidth / lieNum
-
-
-        const fragment = document.createDocumentFragment();
-
 
         // 随机区间内的整数
         function getRadomInt(min, max){
             min = Math.ceil(min)
             max = Math.floor(max)
             return Math.floor(Math.random() * (max - min)) + min
+            
         }
 
-        let speed = 60
+        const fragment = document.createDocumentFragment()
+
+        const speed = 60
         let translateZ = 10
+
         for (let i = 0; i < lieNum; i++) {
 
-            // 得出中间数
+            // 得出中间数 没有中间就向下取一个
             let num = Math.floor(lieNum / 2)
+
             if(i <= num){
                 translateZ += speed
             }else {
                 translateZ -= speed
             }
-            
+
 
             const element = document.createElement('span')
-            // 中间的那个加类名
+            // 中间那个加类名
             if(i === num){
                 element.classList.add('center')
-            }else{
+            }else {
+                // 随便减个数防止超出太多
                 element.style.paddingTop = getRadomInt(0, textWraperHeight - 80) + 'px'
             }
+
             element.style.transform = `translateZ(${translateZ}px)`
             element.innerText = '测试文字'
             fragment.appendChild(element)
@@ -65,5 +66,6 @@
 
 
     </script>
+
 </body>
 </html>

@@ -7,18 +7,17 @@ html,body{
 
 .container{
     width: 100%;
-    height: 100%;
-    border: 1px solid gray;
+    height:100%;
     margin: auto;
     background-color: #000;
     perspective: 10px;
-    transition: all 3s;
+    transition: perspective 3s ease;
     overflow: hidden;
     &:hover{
         perspective: 2800px;
     }
+
     .text-wraper{
-        position: relative;
         width: 100%;
         height: 100%;
         transform-style: preserve-3d;
