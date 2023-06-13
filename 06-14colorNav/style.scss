@@ -1,0 +1,75 @@
+html,body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    background-color: #1e2759;;
+}
+
+$colorlist: (#1abc9c, #2ecc71, #3498db, #9b59b6, #f1c40f, #e67e22, #e74c3c);
+$borderRaduisNum: 10px;
+.container{
+    margin: auto;
+    .list{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        border-radius: $borderRaduisNum;
+        box-shadow: 0 5px 25px rgba(0,0,0,.5);
+        .item{
+            position: relative;
+            color: #fff;
+            cursor: pointer;
+            &:hover{
+                .iconfont{
+                    backdrop-filter: blur(20px);
+                    opacity: 1;
+                }
+                .bg-cricle{
+                    opacity: 1;
+                }
+            }
+
+            .iconfont{
+                position: relative;
+                z-index: 2;
+                padding: 20px 40px;
+                display: block;
+                transition: .2s;
+                opacity: .5;
+                font-size: 20px;
+            }
+            .bg-cricle{
+                position: absolute;
+                top: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50px;
+                height: 40px;
+                border-radius: $borderRaduisNum;
+                transition: .3s;
+                z-index: 1;
+                opacity: 0;
+            }
+            &:first-child{
+                .iconfont{
+                    border-radius: $borderRaduisNum 0 0 $borderRaduisNum;
+                }
+            }
+
+            @for $i from 1 through 7 {
+                &:nth-child(#{$i}){
+                    .bg-cricle{
+                        background-color: nth($list: $colorlist, $n: $i);
+                        box-shadow: 0 0 20px nth($list: $colorlist, $n: $i),
+                        0 0 35px nth($list: $colorlist, $n: $i),
+                        0 0 10px nth($list: $colorlist, $n: $i),
+                        0 0 35px nth($list: $colorlist, $n: $i);
+                    }
+                }
+            }
+
+        }
+    }
+}
