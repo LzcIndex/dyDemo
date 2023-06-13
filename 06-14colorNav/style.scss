@@ -3,11 +3,12 @@ html,body{
     height: 100%;
     margin: 0;
     display: flex;
-    background-color: #1e2759;;
+    background-color: #1e2759;
 }
 
-$colorlist: (#1abc9c, #2ecc71, #3498db, #9b59b6, #f1c40f, #e67e22, #e74c3c);
-$borderRaduisNum: 10px;
+$colorlist: (#1abc9c,#2ecc71,#3498db,#9b59b6,#f1c40f, #e67e22,#e74c3c);
+$borderradiusnum: 10px;
+
 .container{
     margin: auto;
     .list{
@@ -15,12 +16,33 @@ $borderRaduisNum: 10px;
         padding: 0;
         list-style: none;
         display: flex;
-        border-radius: $borderRaduisNum;
-        box-shadow: 0 5px 25px rgba(0,0,0,.5);
+        border-radius: $borderradiusnum;
+        box-shadow: 0 5px 25px rgba($color: #000000, $alpha: .5);
         .item{
             position: relative;
             color: #fff;
             cursor: pointer;
+            .iconfont{
+                display: block;
+                position: relative;
+                z-index: 2;
+                padding: 20px 40px;
+                opacity: .5;
+                font-size: 20px;
+                transition: all .2s;
+            }
+            .bg-cricle{
+                position: absolute;
+                top: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50px;
+                height: 40px;
+                border-radius: $borderradiusnum;
+                transition:all .3s;
+                opacity: 0;
+                z-index: 1;
+            }
             &:hover{
                 .iconfont{
                     backdrop-filter: blur(20px);
@@ -30,31 +52,14 @@ $borderRaduisNum: 10px;
                     opacity: 1;
                 }
             }
-
-            .iconfont{
-                position: relative;
-                z-index: 2;
-                padding: 20px 40px;
-                display: block;
-                transition: .2s;
-                opacity: .5;
-                font-size: 20px;
-            }
-            .bg-cricle{
-                position: absolute;
-                top: -15px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 50px;
-                height: 40px;
-                border-radius: $borderRaduisNum;
-                transition: .3s;
-                z-index: 1;
-                opacity: 0;
-            }
             &:first-child{
                 .iconfont{
-                    border-radius: $borderRaduisNum 0 0 $borderRaduisNum;
+                    border-radius: $borderradiusnum 0 0 $borderradiusnum;
+                }
+            }
+            &:last-child{
+                .iconfont{
+                    border-radius: 0 $borderradiusnum $borderradiusnum 0;
                 }
             }
 
@@ -69,7 +74,6 @@ $borderRaduisNum: 10px;
                     }
                 }
             }
-
         }
     }
 }

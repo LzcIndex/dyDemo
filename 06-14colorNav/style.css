@@ -25,23 +25,14 @@ html, body {
   cursor: pointer;
 }
 
-.container .list .item:hover .iconfont {
-  backdrop-filter: blur(20px);
-  opacity: 1;
-}
-
-.container .list .item:hover .bg-cricle {
-  opacity: 1;
-}
-
 .container .list .item .iconfont {
+  display: block;
   position: relative;
   z-index: 2;
   padding: 20px 40px;
-  display: block;
-  transition: .2s;
   opacity: .5;
   font-size: 20px;
+  transition: all .2s;
 }
 
 .container .list .item .bg-cricle {
@@ -52,13 +43,26 @@ html, body {
   width: 50px;
   height: 40px;
   border-radius: 10px;
-  transition: .3s;
-  z-index: 1;
+  transition: all .3s;
   opacity: 0;
+  z-index: 1;
+}
+
+.container .list .item:hover .iconfont {
+  backdrop-filter: blur(20px);
+  opacity: 1;
+}
+
+.container .list .item:hover .bg-cricle {
+  opacity: 1;
 }
 
 .container .list .item:first-child .iconfont {
   border-radius: 10px 0 0 10px;
+}
+
+.container .list .item:last-child .iconfont {
+  border-radius: 0 10px 10px 0;
 }
 
 .container .list .item:nth-child(1) .bg-cricle {
