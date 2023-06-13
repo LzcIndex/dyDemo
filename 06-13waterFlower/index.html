@@ -8,47 +8,51 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container"></div>
 
-    </div>
+
     <script>
         const imgList = ['1.jpg','2.jpg','3.webp','4.webp','5.jpg','6.jpg','7.jpg','8.webp','9.webp','10.jpg']
-
+    
         const containerEl = document.querySelector('.container')
 
         let timer = null
 
         const imgW = 180
+        
         let isReachBottom = false
 
-        let pageInfo = {} // 间距和列数
-        let heightArr = [] // 每一列的高度
-        
+        let pageInfo = {}
+        let heightArr = [] //每一列的高度
 
+
+        // 随机数
         function getRadomInt(min, max){
             min = Math.ceil(min)
             max = Math.floor(max)
             return Math.floor(Math.random() * (max - min)) + min
-            
         }
 
-        
+
+        // 模拟请求图片
         function requestImg(){
             return new Promise((resolve) => {
-                setTimeout(() => {
-                    const resultArr = []
+                setTimeout(()=>{
+                    const result = []
                     for (let i = 0; i < pageInfo.col*2; i++) {
-                        const index = getRadomInt(0, 10)
-                        resultArr.push(imgList[index])
+                        const index = getRadomInt(0, imgList.length)
+                        result.push(imgList[index])
                     }
-                    resolve(resultArr)
+                    console.log(result);
+                    resolve(result)
+
                 }, 300)
             })
         }
 
-
-        //触底
-        function scrollBottom(speed = 500){
+    
+        // 触底
+        function scrollBottom(speed = 200){
             if(isReachBottom){
                 return
             }
@@ -59,21 +63,25 @@
             if(currentHeight < document.body.scrollHeight && isReachBottom){
                 isReachBottom = false
             }
+            console.log(currentHeight, document.body.scrollHeight);
             if(currentHeight >= document.body.scrollHeight){
                 isReachBottom = true
                 requestImg().then(res => {
-                    createImg(res)
                     isReachBottom = false
+                    createImg(res)
                     const num = Math.max.apply(null, heightArr)
-                    console.log(num, window.innerHeight, num < window.innerHeight);
                     if(num < window.innerHeight){
                         scrollBottom(speed)
                     }
+
                 })
+
             }
 
         }
 
+
+        //创建图片节点
         function createImg(urls = []){
             urls.forEach(url => {
                 const img = document.createElement('img')
@@ -84,84 +92,80 @@
                 img.onload = function(){
                     setPos(this)
                 }
+
             })
         }
 
 
         // 设置元素位置
         function setPos(dom){
+            const minY = Math.min.apply(null, heightArr)
 
-            const minY = Math.min.apply(null,heightArr)
+            const index = heightArr.indexOf(minY)
 
-            const index= heightArr.indexOf(minY)
+            const x = (index * imgW) + ((index + 1) * pageInfo.space)
 
-            const x = (index * imgW) + ((index + 1) *pageInfo.space)
-            
             dom.style.left = x + 'px'
             dom.style.top = minY + 'px'
 
             heightArr[index] = heightArr[index] + pageInfo.space + dom.offsetHeight
-            containerEl.style.height = Math.max.apply(null,heightArr) + 'px'
+            containerEl.style.height = Math.max.apply(null, heightArr) + 'px'
+
         }
 
 
         // 计算列数以及间距
-        function scalc(){ 
-
-            const containerW = containerEl.clientWidth - 7 // 减去滚动条宽度
-
+        function scalc(){
+            const containerW = containerEl.clientWidth -7
             const col = Math.floor(containerW / imgW)
 
             const elseSpace = containerW - col * imgW
 
             const space = elseSpace / (col + 1)
-
             return {
                 col,
                 space
             }
         }
 
-        
         // 添加动画
+        const anMap = new WeakMap()
         const ob = new IntersectionObserver(data => {
             for (const item of data) {
-                if(item.isIntersecting){
-                    const animation = anMap.get(item.target)
-                    animation.play()
-                    ob.unobserve(item.target)
-                }
+                const animation = anMap.get(item.target)
+                animation.play()
+                ob.unobserve(item.target)
             }
         })
-        const anMap = new WeakMap()
         function addAnimation(el){
             const animation = el.animate([
-                { transform: `translateY(100px)`,opacity: 0 },
-                { transform: `translateY(0)`, opacity: 1 }
+                { transform: 'translateY(100px)', opacity: 0 },
+                { transform: 'translateY(0)', opacity: 1 }
             ],{
                 duration: 500,
                 easing: 'ease'
             })
-
             animation.pause()
             anMap.set(el, animation)
             ob.observe(el)
         }
 
-        document.body.addEventListener('scroll', function(){
-            scrollBottom()
-        })
-
-        //初始化 计算列数以及间距，填充每一列的高度
+        // 初始化
         function init(){
             pageInfo = scalc()
             heightArr = new Array(pageInfo.col)
             heightArr.fill(pageInfo.space)
         }
-
         init()
+
+
+        // 滚动
+        document.body.addEventListener('scroll', function(){
+            scrollBottom()
+        })
         scrollBottom()
 
+        //resize 宽度
         window.onresize = function(){
             if(timer){
                 clearTimeout(timer)
@@ -176,7 +180,9 @@
 
             })
         }
-
+    
+    
     </script>
+
 </body>
 </html>
