@@ -16,7 +16,14 @@
 
         const containerEl = document.querySelector('.container')
 
+        let timer = null
+
         const imgW = 180
+        let isReachBottom = false
+
+        let pageInfo = {} // 间距和列数
+        let heightArr = [] // 每一列的高度
+        
 
         function getRadomInt(min, max){
             min = Math.ceil(min)
@@ -25,35 +32,83 @@
             
         }
 
-        // function createImg(){
-        //     const img = document.createElement('img')
-        //     img.src = `./${getRadomInt(0, 10)}`
-        //     return img
-        // }
-
+        
         function requestImg(){
             return new Promise((resolve) => {
                 setTimeout(() => {
                     const resultArr = []
-                    for (let i = 0; i < 5; i++) {
+                    for (let i = 0; i < pageInfo.col*2; i++) {
                         const index = getRadomInt(0, 10)
                         resultArr.push(imgList[index])
                     }
                     resolve(resultArr)
-                }, 500)
-            })
-        }
-
-        function setPos(){
-            requestImg().then(res => {
-                console.log(res);
+                }, 300)
             })
         }
 
 
+        //触底
+        function scrollBottom(speed = 500){
+            if(isReachBottom){
+                return
+            }
+
+            const scrollTop = document.body.scrollTop
+            const currentHeight = scrollTop + window.innerHeight + speed
+
+            if(currentHeight < document.body.scrollHeight && isReachBottom){
+                isReachBottom = false
+            }
+            if(currentHeight >= document.body.scrollHeight){
+                isReachBottom = true
+                requestImg().then(res => {
+                    createImg(res)
+                    isReachBottom = false
+                    const num = Math.max.apply(null, heightArr)
+                    console.log(num, window.innerHeight, num < window.innerHeight);
+                    if(num < window.innerHeight){
+                        scrollBottom(speed)
+                    }
+                })
+            }
+
+        }
+
+        function createImg(urls = []){
+            urls.forEach(url => {
+                const img = document.createElement('img')
+                img.style.width = imgW + 'px'
+                img.src = url
+                containerEl.appendChild(img)
+                addAnimation(img)
+                img.onload = function(){
+                    setPos(this)
+                }
+            })
+        }
+
+
+        // 设置元素位置
+        function setPos(dom){
+
+            const minY = Math.min.apply(null,heightArr)
+
+            const index= heightArr.indexOf(minY)
+
+            const x = (index * imgW) + ((index + 1) *pageInfo.space)
+            
+            dom.style.left = x + 'px'
+            dom.style.top = minY + 'px'
+
+            heightArr[index] = heightArr[index] + pageInfo.space + dom.offsetHeight
+            containerEl.style.height = Math.max.apply(null,heightArr) + 'px'
+        }
+
+
+        // 计算列数以及间距
         function scalc(){ 
 
-            const containerW = containerEl.clientWidth
+            const containerW = containerEl.clientWidth - 7 // 减去滚动条宽度
 
             const col = Math.floor(containerW / imgW)
 
@@ -65,6 +120,61 @@
                 col,
                 space
             }
+        }
+
+        
+        // 添加动画
+        const ob = new IntersectionObserver(data => {
+            for (const item of data) {
+                if(item.isIntersecting){
+                    const animation = anMap.get(item.target)
+                    animation.play()
+                    ob.unobserve(item.target)
+                }
+            }
+        })
+        const anMap = new WeakMap()
+        function addAnimation(el){
+            const animation = el.animate([
+                { transform: `translateY(100px)`,opacity: 0 },
+                { transform: `translateY(0)`, opacity: 1 }
+            ],{
+                duration: 500,
+                easing: 'ease'
+            })
+
+            animation.pause()
+            anMap.set(el, animation)
+            ob.observe(el)
+        }
+
+        document.body.addEventListener('scroll', function(){
+            scrollBottom()
+        })
+
+        //初始化 计算列数以及间距，填充每一列的高度
+        function init(){
+            pageInfo = scalc()
+            heightArr = new Array(pageInfo.col)
+            heightArr.fill(pageInfo.space)
+        }
+
+        init()
+        scrollBottom()
+
+        window.onresize = function(){
+            if(timer){
+                clearTimeout(timer)
+            }
+            timer = setTimeout(() => {
+                init()
+                const imgs = containerEl.querySelectorAll('img')
+                for (let i = 0; i < imgs.length; i++) {
+                    const element = imgs[i];
+                    setPos(element)
+                }
+
+            })
         }
 
     </script>
