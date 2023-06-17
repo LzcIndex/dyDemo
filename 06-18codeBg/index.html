@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 0;
+        }
+        #canvas{
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+
+        const canvas = document.querySelector('#canvas')
+        const ctx = canvas.getContext('2d'); // 画笔
+
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight); // 填充画布
+
+        const fontSize = 15
+        const textColor = '#00ff00'
+        const colNum = Math.floor(window.innerWidth / fontSize)
+
+
+        const colsYList = new Array(colNum)
+        colsYList.fill(1)
+
+        function getRandomStr(){
+            const str = '01'
+            const index = Math.floor(Math.random() * (str.length - 0))
+            return str[index]
+        }
+
+
+        function draw(){
+            ctx.fillStyle = 'rgba(0,0,0,.15)'
+            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+
+            ctx.fillStyle = textColor
+            ctx.font = `${fontSize}px "Georgia"`;
+
+            for (let i = 0; i < colsYList.length; i++) {
+        
+                const x = fontSize * i
+                const y = fontSize * colsYList[i]
+                ctx.fillText(getRandomStr(),x ,y)
+                if(y > window.innerHeight && Math.random() > 0.995){
+                    colsYList[i] = 0
+                }else {
+                    colsYList[i]++
+                }
+            }
+
+        }
+
+        draw()
+        setInterval(() => {
+            draw()
+        }, 40);
+
+    </script>
+</body>
+</html>

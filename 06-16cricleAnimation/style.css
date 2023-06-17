@@ -2,23 +2,23 @@ html, body {
   margin: 0;
   width: 100%;
   height: 100%;
-  display: flex;
   background-color: #000;
+  display: flex;
 }
 
 .container {
-  margin: auto;
   width: 200px;
   height: 200px;
+  margin: auto;
   position: relative;
-  transform-style: preserve-3d;
   perspective: 500px;
+  transform-style: preserve-3d;
 }
 
-.container .cricle {
+.container .circle {
   position: absolute;
-  top: 0;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -26,47 +26,44 @@ html, body {
   border-radius: 50%;
 }
 
-.container .cricle:nth-child(1) {
+.container .circle:nth-child(1) {
   border-color: #0097e6;
-  animation: rotate1 1.15s linear  -.8s infinite;
-  transform: rotateX(35deg) rotateY(-45deg) rotate(0);
+  animation: move1 1.2s linear -.8s infinite;
 }
 
-.container .cricle:nth-child(2) {
+.container .circle:nth-child(2) {
   border-color: #8c7ae6;
-  animation: rotate2 1.15s linear -.4s infinite;
-  transform: rotateX(50deg) rotateY(10deg) rotate(0);
+  animation: move2 1.2s linear -.4s infinite;
 }
 
-.container .cricle:nth-child(3) {
+.container .circle:nth-child(3) {
   border-color: #e1b12c;
-  animation: rotate3 1.15s linear infinite;
-  transform: rotateX(35deg) rotateY(55deg) rotate(0);
+  animation: move3 1.2s linear  infinite;
 }
 
-@keyframes rotate1 {
+@keyframes move1 {
   0% {
     transform: rotateX(35deg) rotateY(-45deg) rotate(0);
   }
-  to {
+  100% {
     transform: rotateX(35deg) rotateY(-45deg) rotate(360deg);
   }
 }
 
-@keyframes rotate2 {
+@keyframes move2 {
   0% {
     transform: rotateX(50deg) rotateY(10deg) rotate(0);
   }
-  to {
+  100% {
     transform: rotateX(50deg) rotateY(10deg) rotate(360deg);
   }
 }
 
-@keyframes rotate3 {
+@keyframes move3 {
   0% {
     transform: rotateX(35deg) rotateY(55deg) rotate(0);
   }
-  to {
+  100% {
     transform: rotateX(35deg) rotateY(55deg) rotate(360deg);
   }
 }
