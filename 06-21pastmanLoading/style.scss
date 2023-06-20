@@ -7,10 +7,13 @@ html,body{
 
 }
 
+$color: #f47023;
+
+
 .container{
+    margin: auto;
     width: 200px;
     height: 200px;
-    margin: auto;
     position: relative;
     .circle{
         border-radius: 50%;
@@ -19,29 +22,27 @@ html,body{
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        border: 2px solid #f47023;
+        border: 2px solid $color;
         &.item{
             animation: round 3s linear infinite;
             &::after{
                 content: '';
-                width: 13px;
-                height: 13px;
-                border-radius: 50%;
-                background-color: #f47023;
                 position: absolute;
                 top: 0;
                 left: 50%;
                 transform: translate(-50%, -50%);
+                width: 13px;
+                height: 13px;
+                background-color: $color;
+                border-radius: 50%;
             }
         }
         &:nth-child(1){
-            z-index: 2;
             width: 50px;
             height: 50px;
-            background-color: #f47023;
+            background-color: $color;
         }
         &:nth-child(2){
-            z-index: 1;
             width: 100px;
             height: 100px;
             background-color: transparent;
@@ -49,7 +50,6 @@ html,body{
         }
         
         &:nth-child(3){
-            z-index: 1;
             width: 140px;
             height: 140px;
             background-color: transparent;
@@ -57,13 +57,13 @@ html,body{
         }
         
         &:nth-child(4){
-            z-index: 1;
             width: 180px;
             height: 180px;
             background-color: transparent;
         }
     }
 }
+
 @keyframes round {
     100%{
         transform: translate(-50%, -50%) rotate(360deg);

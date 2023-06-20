@@ -7,9 +7,9 @@ html, body {
 }
 
 .container {
+  margin: auto;
   width: 200px;
   height: 200px;
-  margin: auto;
   position: relative;
 }
 
@@ -29,25 +29,23 @@ html, body {
 
 .container .circle.item::after {
   content: '';
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background-color: #f47023;
   position: absolute;
   top: 0;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  background-color: #f47023;
+  border-radius: 50%;
 }
 
 .container .circle:nth-child(1) {
-  z-index: 2;
   width: 50px;
   height: 50px;
   background-color: #f47023;
 }
 
 .container .circle:nth-child(2) {
-  z-index: 1;
   width: 100px;
   height: 100px;
   background-color: transparent;
@@ -55,7 +53,6 @@ html, body {
 }
 
 .container .circle:nth-child(3) {
-  z-index: 1;
   width: 140px;
   height: 140px;
   background-color: transparent;
@@ -63,7 +60,6 @@ html, body {
 }
 
 .container .circle:nth-child(4) {
-  z-index: 1;
   width: 180px;
   height: 180px;
   background-color: transparent;
