@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <div class="loader">
+        <div class="progress"></div>
+    </div>
+
+    <section>1</section>
+    <section>2</section>
+    <section>3</section>
+    <section>4</section>
+    <section>5</section>
+    <section>6</section>
+    <section>7</section>
+    <section>8</section>
+    <section>9</section>
+    <section>10</section>
+    <section>11</section>
+    <section>12</section>
+    <section>13</section>
+    <section>14</section>
+    <section>15</section>
+    <section>16</section>
+    <section>17</section>
+    <section>18</section>
+    <section>19</section>
+    <section>20</section>
+
+    <script>
+
+        window.onload = function(){
+            const progress = document.querySelector('.progress')
+
+            // 得出可滚动高度 减去window.innerheight是因为一个滚动条高度就是一个屏幕高度，最终滚到下面就是剩下一屏
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+
+            document.addEventListener('scroll', function(){
+
+
+                //已经滚动的占比和滚动条占用父元素宽度的比值一样，所以直接用百分比即可
+                progress.style.width = document.documentElement.scrollTop / scrollHeight * 100 + '%'
+            })
+
+        }
+
+    </script>
+
+</body>
+
+</html>
