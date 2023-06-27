@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>顶部导航栏</header>
+    <div class="container">
+        <div class="left-nav">
+            <ul class="list">
+                <li class="item active">HOME</li>
+                <li class="item">ABOUT</li>
+                <li class="item">USERS</li>
+                <li class="item">BLOG</li>
+                <li class="item">SETTING</li>
+            </ul>
+        </div>
+        <div class="content-wraper">
+            <section>HOME</section>
+            <section>ABOUT</section>
+            <section>USERS</section>
+            <section>BLOG</section>
+            <section>SETTING</section>
+        </div>
+    </div>
+    <script>
+        const sections = document.querySelectorAll('section')
+        const items = document.querySelectorAll('.item')
+
+        const line = window.innerHeight / 2 // 过度线
+
+        let currentIndex = 0 // 当前属于第几个
+
+        let timer = null
+
+        // 侧边栏点击
+        items.forEach((el, index) => {
+            el.onclick = function(){
+
+                // 防止频繁点击
+                if(timer){
+                    return
+                }
+
+                const htmlScrollHeight = document.documentElement.scrollHeight - window.innerHeight
+                const itemTop = sections[index].offsetTop - 65
+                // 最终需要滚动到的地方
+                const resultTop = itemTop > htmlScrollHeight ? htmlScrollHeight : itemTop
+
+                // 让滚动条有滚动动画
+                timer = setInterval(() => {
+
+                    // 差值 用来判断大小然后判断方向
+                    const targNumDiff = resultTop - document.documentElement.scrollTop
+
+                    if(targNumDiff < 0){
+
+                        // 允许滚动的误差值 例如 目标是500 那么到520或者 480也可以
+                        if(Math.abs(targNumDiff) < 20){
+                            clearInterval(timer)
+                            timer = null
+                        }
+                        document.documentElement.scrollTop = document.documentElement.scrollTop - 10
+
+                    }else {
+                        // 允许滚动的误差值 例如 目标是500 那么到520或者 480也可以
+                        if(Math.abs(targNumDiff) < 20){
+                            clearInterval(timer)
+                            timer = null
+                        }
+                        document.documentElement.scrollTop = document.documentElement.scrollTop + 10
+
+                    }
+
+                })
+
+
+            }
+        })
+
+
+
+        // 检测是否过了过度线
+        function checkView(){
+            for (let i = 0; i < sections.length; i++) {
+                const element = sections[i];
+                const rect = element.getBoundingClientRect()
+                if(rect.top > 0 && rect.top < line){
+                    currentIndex = i
+                    return {
+                        el: element,
+                        index: i
+                    }
+                }
+            }
+            return {
+                el: sections[currentIndex],
+                index: currentIndex
+            }
+        }
+
+        // 侧边栏按钮切换类名
+        function toggleClassName(index){
+            items.forEach(el => {
+                el.className = 'item'
+            })
+
+            items[index].className = 'item active'
+
+        }
+
+        window.addEventListener('scroll', function(){
+            const niceEl = checkView()
+            toggleClassName(niceEl.index)
+        })
+
+    </script>
+</body>
+</html>
