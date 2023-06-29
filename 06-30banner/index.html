@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <div class="view">
+        <ul class="list">
+            <li class="item"><img src="1.png" alt=""></li>
+            <li class="item"><img src="2.png" alt=""></li>
+            <li class="item"><img src="3.png" alt=""></li>
+            <li class="item"><img src="4.png" alt=""></li>
+            <li class="item"><img src="5.png" alt=""></li>
+            <li class="item"><img src="1.png" alt=""></li>
+        </ul>
+        <div class="page-list">
+            <!-- <div class="page-item active"></div>
+            <div class="page-item"></div>
+            <div class="page-item"></div>
+            <div class="page-item"></div>
+            <div class="page-item"></div> -->
+        </div>
+        <button class="btn prev">&lt;</button>
+        <button class="btn next">&gt;</button>
+    </div>
+
+    <script>
+
+        window.onload = function(){
+
+            const viewEl = document.querySelector('.view')
+            const listEl = document.querySelector('.list')
+            const items = document.querySelectorAll('.item')
+            const pageListEl = document.querySelector('.page-list')
+
+            const prevBtn = document.querySelector('.prev')
+            const nextBtn = document.querySelector('.next')
+
+            let currentIndex = 0
+            const imgLength = items.length - 1 // 实际图片数
+
+            const fragment = document.createDocumentFragment()
+            const pageItemList = []
+
+            const duration = 1000
+
+            let timer = null
+            let timer2 = null
+
+            let flag = false // 是否正在执行
+
+            //动态生成按钮
+            // let str = ''                
+            for (let i = 0; i < imgLength; i++) {
+                // str += `<div class="page-item ${i === currentIndex ? 'active' : ''}"></div>`
+                const div = document.createElement('div')
+                div.className = `page-item ${i === currentIndex ? 'active' : '' }`
+
+                fragment.appendChild(div)
+
+                pageItemList.push(div)
+            }
+
+            pageListEl.appendChild(fragment)
+
+
+            // 图片宽度 = 视口节点宽度
+            const itemWidth = viewEl.clientWidth
+
+            // 切换图片
+            function goCurrent(){
+                
+                flag = true
+                const x = -currentIndex * itemWidth
+                listEl.style.transition = 'all .3s'
+                listEl.style.transform = `translateX(${x}px)`
+            }
+
+            // 切换按钮类名
+            function toggleClassName(){
+                const index = currentIndex > pageItemList.length - 1 ? 0 : currentIndex
+                pageItemList.forEach((el, index) => {
+                    el.className = 'page-item'
+                })
+
+                pageItemList[index].className = 'page-item active'
+            }
+
+            function next(){
+                stopAutoPlay()
+                if(flag) return
+                currentIndex ++ 
+                goCurrent()
+                toggleClassName()
+            }
+
+            // 自动播放
+            function autoPlay(){
+               tiemr = setInterval(() => {
+                next()
+               }, duration)
+            }
+            autoPlay()
+
+            // 停止自动播放 并 duration毫秒后再次启动
+            function stopAutoPlay(){
+                clearInterval(tiemr)
+                clearTimeout(timer2)
+                timer2 = setTimeout(() => {
+                    autoPlay()
+                }, duration)
+            }
+
+            prevBtn.onclick = function(){
+                stopAutoPlay()
+                if(flag) return
+                currentIndex --
+                goCurrent()
+                toggleClassName()
+            }
+
+            nextBtn.onclick = next
+
+            pageItemList.forEach((el, index) => {
+                el.onclick = () => {
+                    stopAutoPlay()
+                    if(flag) return
+                    currentIndex = index
+                    goCurrent()
+                    toggleClassName()
+                }
+
+            })
+
+            listEl.addEventListener('transitionend', function(){
+                flag = false
+                if(currentIndex === items.length - 1){
+                    currentIndex = 0
+                    listEl.style.transition = 'none'
+                    listEl.style.transform = `translateX(0px)`
+                }
+
+            })
+
+
+        }
+
+    </script>
+
+</body>
+</html>
