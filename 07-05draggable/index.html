@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <ul class="list">
+        <li draggable="true" class="item html">HTML</li>
+        <li draggable="true" class="item css">CSS</li>
+        <li draggable="true" class="item js">JavaScript</li>
+        <li draggable="true" class="item vue">Vue</li>
+        <li draggable="true" class="item react">React</li>
+    </ul>
+
+
+    <script>
+
+        const listEl = document.querySelector('.list')
+        let activeEl = null // 正在被拖动的元素
+
+        // 开始
+        listEl.ondragstart = e => {
+            setTimeout(() => {
+                e.target.classList.add('active')
+            })
+            activeEl = e.target
+        }
+
+        // 进入
+        listEl.ondragenter = e => {
+            e.preventDefault()
+            if(e.target === listEl || e.target === activeEl) return
+
+
+            const itemList = [...listEl.children]
+            const activeIndex = itemList.indexOf(activeEl)
+            const targetIndex = itemList.indexOf(e.target)
+
+            // 向上
+            if(activeIndex > targetIndex){
+                // 往目标元素前面插入
+                listEl.insertBefore(activeEl, e.target)
+            }else{
+                //向下 王目标元素后面插入即目标元素的下一个元素的前面位置
+                listEl.insertBefore(activeEl, e.target.nextElementSibling)
+
+            }
+
+
+        }
+
+
+
+        // 正在目标上方
+        listEl.ondragover = e => {
+            e.preventDefault()
+        }
+
+        
+        // 结束
+        listEl.ondragend = e => {
+            e.target.classList.remove('active')
+        }
+
+
+    </script>
+
+
+</body>
+</html>
