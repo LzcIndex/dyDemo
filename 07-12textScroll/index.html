@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            display: flex;
+        }
+        .container{
+            margin: auto;
+            display: flex;
+            box-shadow: 1px 1px 10px gray;
+            border-radius: 10px;
+            padding: 30px;
+        }
+        .item{
+            width: 100px;
+            height: 160px;
+            line-height: 160px;
+            text-align: center;
+            background-color: #2980b9;
+            border-radius: 10px;
+            writing-mode: vertical-lr;
+            text-orientation: upright;
+            position: relative;
+            margin: 5px;
+            overflow: hidden;
+        }
+        .num{
+            font-size: 128px;
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            color: #fff;
+            transform: translate(-50%, 0%);
+            letter-spacing: 10px;
+            transition: all .5s ease-in-out;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+    </div>
+
+    <script>
+
+        const  len = [0, 0, 1, 5] // 初始数字
+
+        let timer = null
+
+        const containerEl = document.querySelector('.container')
+
+        const fragment = document.createDocumentFragment()
+
+        for (let i = 0; i < len.length; i++) {
+            const item = document.createElement('div')
+            item.classList.add('item')
+            item.innerHTML = `<span class="num" style="transform: translate(-50%, -${len[i] * 10}%);">0123456789</span>`
+            fragment.appendChild(item)
+        }
+
+        containerEl.appendChild(fragment)
+
+        const numEls = document.querySelectorAll('.num')
+
+        // 改变数字以及视图
+        function change(index){
+
+            len[index]++
+
+            // 如果大于9前面数字加1，且当前位数回归0
+            if(len[index] === 10){
+                len[index] = 0
+                change(index - 1)
+            }
+
+            numEls[index].style.transform = `translate(-50%, -${len[index] * 10}%)`
+
+            // 当全部都是9的时候就暂停增加
+            const _arr = len.filter(v => v === 9)
+            if(_arr.length === len.length){
+                clearInterval(timer)
+            }
+        }
+
+        // 增加
+        timet = setInterval(() =>{
+            change(len.length - 1)
+        }, 1500)
+
+
+    </script>
+
+</body>
+</html>
