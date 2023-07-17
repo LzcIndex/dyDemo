@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            position: relative;
+            background: url('./bg.webp') no-repeat;
+            background-size:  cover;
+        }
+
+        ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 15px;
+            display: flex;
+            align-items: flex-end;
+            background-color: rgba(255, 255, 255, .3);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            height: 80px;
+        }
+
+        li{
+            margin: 10px;
+            width: 60px;
+            cursor: pointer;
+            font-size: 0;
+        }
+
+        li img{
+            width: 100%;
+            border-radius: 10px;
+        }
+
+
+
+    </style>
+
+</head>
+
+<body>
+    <ul>
+        <li><img src="./1.jpg" alt=""></li>
+        <li><img src="./2.webp" alt=""></li>
+        <li><img src="./3.png" alt=""></li>
+        <li><img src="./4.png" alt=""></li>
+        <li><img src="./5.webp" alt=""></li>
+        <li><img src="./1.jpg" alt=""></li>
+        <li><img src="./2.webp" alt=""></li>
+        <li><img src="./3.png" alt=""></li>
+        <li><img src="./4.png" alt=""></li>
+        <li><img src="./5.webp" alt=""></li>
+
+    </ul>
+
+
+    <script>
+
+        const liEl = document.querySelectorAll('li')
+
+
+        const itemWidth = 60
+
+        const line = 200 // 临界值
+
+
+        document.onmousemove = (e) => {
+
+            const x = e.clientX
+            const y = e.clientY
+
+            for (let i = 0; i < liEl.length; i++) {
+                const item = liEl[i];
+                const itemRect = item.getBoundingClientRect()
+
+                const a = x - itemRect.x - (item.offsetWidth / 2) // 鼠标距离元素中心位置的横向距离
+                const b = y - itemRect.y - (item.offsetHeight / 2) // 鼠标距离元素中心位置的垂直距离
+
+                const r = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)) // r^2 = a^2 + b^2 勾股定理，得出鼠标到元素中心的距离
+            
+                // 当元素在临界值范围内时
+                if(r < line){
+                    // 越靠近li元素宽度越大
+                    item.style.width = `${itemWidth + (1- r / line) * itemWidth}px`
+
+                }else{
+                    item.style.width = `${itemWidth}px`
+                }
+            
+            }
+
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>
