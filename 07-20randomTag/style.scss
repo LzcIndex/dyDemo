@@ -1,0 +1,67 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #282a37;
+}
+
+@function randNumber($max, $min: 0){
+    @return $min + random($max);
+}
+
+@function randColor(){
+    @return rgb(randNumber(255), randNumber(255), randNumber(255));
+}
+
+
+.list{
+    width: 700px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .tag{
+        border-radius: 100px;
+        height: 30px;
+        flex-shrink: 0;
+        margin: 5px;
+        opacity: 0;
+        @for $i from 1 through 51 {
+            &:nth-child(#{$i}){
+                width: #{randNumber(120, 80)}px;
+                background-color: randColor();
+                animation: move .3s linear #{50 * (51 - $i)}ms  forwards;
+            }
+        }
+
+    }
+    
+}
+
+
+@keyframes move {
+    0%{
+        transform: translateY(-180px) scaleX(1) scaleY(1);
+        opacity: 1;
+    }
+    60%{
+        transform: translateY(30px) scaleX(1.4) scaleY(.8);
+    }
+    75%{
+        transform: translateY(-15px) scaleX(1.2) scaleY(1.2);
+    }
+    90%{
+        transform: translateY(5px) scaleX(1.1) scaleY(.9);
+    }
+    100%{
+        transform: translateY(0) scaleX(1) scaleY(1);
+        opacity: 1;
+    }
+}

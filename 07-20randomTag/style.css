@@ -1,0 +1,355 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #282a37;
+}
+
+.list {
+  width: 700px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.list .tag {
+  border-radius: 100px;
+  height: 30px;
+  flex-shrink: 0;
+  margin: 5px;
+  opacity: 0;
+}
+
+.list .tag:nth-child(1) {
+  width: 150px;
+  background-color: #34d77b;
+  animation: move 0.3s linear 2500ms forwards;
+}
+
+.list .tag:nth-child(2) {
+  width: 188px;
+  background-color: #490ca7;
+  animation: move 0.3s linear 2450ms forwards;
+}
+
+.list .tag:nth-child(3) {
+  width: 178px;
+  background-color: #cc984d;
+  animation: move 0.3s linear 2400ms forwards;
+}
+
+.list .tag:nth-child(4) {
+  width: 197px;
+  background-color: #8f5448;
+  animation: move 0.3s linear 2350ms forwards;
+}
+
+.list .tag:nth-child(5) {
+  width: 191px;
+  background-color: #03bd31;
+  animation: move 0.3s linear 2300ms forwards;
+}
+
+.list .tag:nth-child(6) {
+  width: 193px;
+  background-color: #255476;
+  animation: move 0.3s linear 2250ms forwards;
+}
+
+.list .tag:nth-child(7) {
+  width: 162px;
+  background-color: #86e35f;
+  animation: move 0.3s linear 2200ms forwards;
+}
+
+.list .tag:nth-child(8) {
+  width: 88px;
+  background-color: #333e0f;
+  animation: move 0.3s linear 2150ms forwards;
+}
+
+.list .tag:nth-child(9) {
+  width: 132px;
+  background-color: #0b4acb;
+  animation: move 0.3s linear 2100ms forwards;
+}
+
+.list .tag:nth-child(10) {
+  width: 139px;
+  background-color: #feddc0;
+  animation: move 0.3s linear 2050ms forwards;
+}
+
+.list .tag:nth-child(11) {
+  width: 105px;
+  background-color: #0dd4c5;
+  animation: move 0.3s linear 2000ms forwards;
+}
+
+.list .tag:nth-child(12) {
+  width: 133px;
+  background-color: #bcf525;
+  animation: move 0.3s linear 1950ms forwards;
+}
+
+.list .tag:nth-child(13) {
+  width: 109px;
+  background-color: #7d1992;
+  animation: move 0.3s linear 1900ms forwards;
+}
+
+.list .tag:nth-child(14) {
+  width: 113px;
+  background-color: #c78dbc;
+  animation: move 0.3s linear 1850ms forwards;
+}
+
+.list .tag:nth-child(15) {
+  width: 112px;
+  background-color: #2278c5;
+  animation: move 0.3s linear 1800ms forwards;
+}
+
+.list .tag:nth-child(16) {
+  width: 114px;
+  background-color: #b7e179;
+  animation: move 0.3s linear 1750ms forwards;
+}
+
+.list .tag:nth-child(17) {
+  width: 176px;
+  background-color: #495d7d;
+  animation: move 0.3s linear 1700ms forwards;
+}
+
+.list .tag:nth-child(18) {
+  width: 156px;
+  background-color: #63c6c0;
+  animation: move 0.3s linear 1650ms forwards;
+}
+
+.list .tag:nth-child(19) {
+  width: 131px;
+  background-color: #d97897;
+  animation: move 0.3s linear 1600ms forwards;
+}
+
+.list .tag:nth-child(20) {
+  width: 99px;
+  background-color: #62bd51;
+  animation: move 0.3s linear 1550ms forwards;
+}
+
+.list .tag:nth-child(21) {
+  width: 178px;
+  background-color: #0dd719;
+  animation: move 0.3s linear 1500ms forwards;
+}
+
+.list .tag:nth-child(22) {
+  width: 123px;
+  background-color: #c0258c;
+  animation: move 0.3s linear 1450ms forwards;
+}
+
+.list .tag:nth-child(23) {
+  width: 150px;
+  background-color: #c1e017;
+  animation: move 0.3s linear 1400ms forwards;
+}
+
+.list .tag:nth-child(24) {
+  width: 114px;
+  background-color: #b6101b;
+  animation: move 0.3s linear 1350ms forwards;
+}
+
+.list .tag:nth-child(25) {
+  width: 183px;
+  background-color: #4f5b40;
+  animation: move 0.3s linear 1300ms forwards;
+}
+
+.list .tag:nth-child(26) {
+  width: 100px;
+  background-color: #60a803;
+  animation: move 0.3s linear 1250ms forwards;
+}
+
+.list .tag:nth-child(27) {
+  width: 112px;
+  background-color: #b312ce;
+  animation: move 0.3s linear 1200ms forwards;
+}
+
+.list .tag:nth-child(28) {
+  width: 193px;
+  background-color: #b61b4a;
+  animation: move 0.3s linear 1150ms forwards;
+}
+
+.list .tag:nth-child(29) {
+  width: 188px;
+  background-color: #6ff870;
+  animation: move 0.3s linear 1100ms forwards;
+}
+
+.list .tag:nth-child(30) {
+  width: 187px;
+  background-color: #860417;
+  animation: move 0.3s linear 1050ms forwards;
+}
+
+.list .tag:nth-child(31) {
+  width: 154px;
+  background-color: #b8468c;
+  animation: move 0.3s linear 1000ms forwards;
+}
+
+.list .tag:nth-child(32) {
+  width: 108px;
+  background-color: #ec7fa7;
+  animation: move 0.3s linear 950ms forwards;
+}
+
+.list .tag:nth-child(33) {
+  width: 176px;
+  background-color: #2ebd26;
+  animation: move 0.3s linear 900ms forwards;
+}
+
+.list .tag:nth-child(34) {
+  width: 98px;
+  background-color: #cc7023;
+  animation: move 0.3s linear 850ms forwards;
+}
+
+.list .tag:nth-child(35) {
+  width: 167px;
+  background-color: #2ba162;
+  animation: move 0.3s linear 800ms forwards;
+}
+
+.list .tag:nth-child(36) {
+  width: 135px;
+  background-color: #a7b504;
+  animation: move 0.3s linear 750ms forwards;
+}
+
+.list .tag:nth-child(37) {
+  width: 164px;
+  background-color: #f8e682;
+  animation: move 0.3s linear 700ms forwards;
+}
+
+.list .tag:nth-child(38) {
+  width: 108px;
+  background-color: #033c84;
+  animation: move 0.3s linear 650ms forwards;
+}
+
+.list .tag:nth-child(39) {
+  width: 197px;
+  background-color: #b1c261;
+  animation: move 0.3s linear 600ms forwards;
+}
+
+.list .tag:nth-child(40) {
+  width: 160px;
+  background-color: #0cd990;
+  animation: move 0.3s linear 550ms forwards;
+}
+
+.list .tag:nth-child(41) {
+  width: 115px;
+  background-color: #30619c;
+  animation: move 0.3s linear 500ms forwards;
+}
+
+.list .tag:nth-child(42) {
+  width: 148px;
+  background-color: #577f81;
+  animation: move 0.3s linear 450ms forwards;
+}
+
+.list .tag:nth-child(43) {
+  width: 190px;
+  background-color: #071654;
+  animation: move 0.3s linear 400ms forwards;
+}
+
+.list .tag:nth-child(44) {
+  width: 114px;
+  background-color: #3f6814;
+  animation: move 0.3s linear 350ms forwards;
+}
+
+.list .tag:nth-child(45) {
+  width: 145px;
+  background-color: #331343;
+  animation: move 0.3s linear 300ms forwards;
+}
+
+.list .tag:nth-child(46) {
+  width: 143px;
+  background-color: #8523af;
+  animation: move 0.3s linear 250ms forwards;
+}
+
+.list .tag:nth-child(47) {
+  width: 161px;
+  background-color: #064686;
+  animation: move 0.3s linear 200ms forwards;
+}
+
+.list .tag:nth-child(48) {
+  width: 140px;
+  background-color: #20efb8;
+  animation: move 0.3s linear 150ms forwards;
+}
+
+.list .tag:nth-child(49) {
+  width: 198px;
+  background-color: #a2696c;
+  animation: move 0.3s linear 100ms forwards;
+}
+
+.list .tag:nth-child(50) {
+  width: 107px;
+  background-color: #238556;
+  animation: move 0.3s linear 50ms forwards;
+}
+
+.list .tag:nth-child(51) {
+  width: 136px;
+  background-color: #5a7cd3;
+  animation: move 0.3s linear 0ms forwards;
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(-180px) scaleX(1) scaleY(1);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(30px) scaleX(1.4) scaleY(0.8);
+  }
+  75% {
+    transform: translateY(-15px) scaleX(1.2) scaleY(1.2);
+  }
+  90% {
+    transform: translateY(5px) scaleX(1.1) scaleY(0.9);
+  }
+  100% {
+    transform: translateY(0) scaleX(1) scaleY(1);
+    opacity: 1;
+  }
+}
