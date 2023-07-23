@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4120990_6ofd3tn0sm6.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="bar-container">
+            <div class="bar-bg-container">
+                <div class="lt"></div>
+                <div class="cirle-container">
+                    <div class="cirle"></div>
+                </div>
+                <div class="rt"></div>
+            </div>
+
+            <ul class="content-body">
+                <li class="bar-iten active">
+                    <span class="iconfont icon-tuihuobaozhang"></span>
+                    <span class="text">测试</span>
+                </li>
+                <li class="bar-iten">
+                    <span class="iconfont icon-kafei"></span>
+                    <span class="text">测试</span>
+                </li>
+                <li class="bar-iten">
+                    <span class="iconfont icon-tianmaopaidui"></span>
+                    <span class="text">测试</span>
+                </li>
+                <li class="bar-iten">
+                    <span class="iconfont icon-shengriliwu"></span>
+                    <span class="text">测试</span>
+                </li>
+                <li class="bar-iten">
+                    <span class="iconfont icon-kefuyouxian"></span>
+                    <span class="text">测试</span>
+                </li>
+            </ul>
+
+
+        </div>
+    </div>
+
+
+    <script>
+
+        const lis = document.querySelectorAll('.bar-iten')
+
+        const ltEl = document.querySelector('.lt')
+
+
+        const litElWidth = 30 // 左侧初始宽度
+
+        const itemWidth = 100 // 每个bar的宽度
+
+        let activeIndex = 0
+
+        lis.forEach((item, index) => {
+
+            item.onclick = () => {
+
+                lis[activeIndex].classList.remove('active')
+
+                item.classList.add('active')
+
+
+                ltEl.style.width = litElWidth + index * itemWidth + 'px'
+
+
+                activeIndex = index
+
+
+            }
+
+
+        })
+
+
+    </script>
+</body>
+
+</html>
