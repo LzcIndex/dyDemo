@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+   <ul class="list">
+        <div class="small-menu">
+            <span></span><span></span><span></span>
+        </div>
+        <li class="active ctrl">
+            Menu
+            <span class="close">x</span>
+        </li>
+        <li class="active">HTML</li>
+        <li class="active">CSS</li>
+        <li class="active">HTML5</li>
+        <li class="active">CSS3</li>
+        <li class="active">JAVASCRIPT</li>
+        <li class="active">VUE</li>
+        <li class="active">REACT</li>
+        <li class="active">NODE</li>
+        <li class="active">WEBPACK</li>
+   </ul>
+
+
+   <script>
+
+    const close = document.querySelector('.close')
+
+    const smallMenu = document.querySelector('.small-menu')
+
+    const liEl = document.querySelectorAll('li')
+
+    let active = false
+
+    close.onclick = function(){
+        liEl.forEach(dom => {
+            dom.classList.add('active')
+        })
+        smallMenu.classList.remove('active')
+        active = true
+
+    }
+
+    smallMenu.onclick = function(){
+        liEl.forEach(dom => {
+            dom.classList.remove('active')
+        })
+        smallMenu.classList.add('active')
+        active = false
+
+    }
+
+   </script>
+</body>
+</html>
