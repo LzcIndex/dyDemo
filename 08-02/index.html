@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="list">
+        <img src="./1.png" alt="">
+        <img src="./1.png" alt="">
+        <img src="./1.png" alt="">
+        <img src="./1.png" alt="">
+        <img src="./1.png" alt="">
+        <img src="./1.png" alt="">
+        <img src="./1.png" alt="">
+        <img src="./1.png" alt="">
+        <img src="./1.png" alt="">
+        <img src="./1.png" alt="">
+    </div>
+
+    <script>
+
+        let imgC = null
+        let originalEl = null
+        let flag = true
+
+        document.querySelector('.list').onclick = function(e){
+            originalEl = e.target
+
+            imgC = originalEl.cloneNode(true)
+
+            originalEl.style.opacity = 0
+
+            openModal()
+        }
+
+        // 打开遮罩
+        function openModal() {
+            // 添加遮罩
+            const modalEl = document.createElement('div')
+            modalEl.classList.add('modal')
+            document.body.appendChild(modalEl)
+
+            // 添加遮罩内图片
+            const {top, left } = originalEl.getBoundingClientRect()
+            changeElStyle(imgC, [`left:${left}px`, `top: ${top}px`])
+            modalEl.appendChild(imgC)
+
+            const modalClick = function() {
+                if(flag){
+                    const {top, left } = originalEl.getBoundingClientRect()
+                    changeElStyle(imgC, ['transition: all .3s', `width: ${originalEl.offsetWidth}px`, `transform: scale(${1})` ,`left: ${left}px`, `top:${top}px`])
+                    setTimeout(() => {
+                        document.body.removeChild(this)
+                        originalEl.style.opacity = 1
+                        modalEl.removeEventListener('click', modalClick)
+                    }, 300)
+                }
+            }
+
+            // 遮罩点击，关闭
+            modalEl.addEventListener('click', modalClick)
+
+            // 移动图片位置
+
+            // 视口中心点坐标
+            const center = {x: window.innerWidth / 2, y: window.innerHeight / 2}
+
+            const scaleNum = scalcScale() // 缩放系数
+
+            // 目标宽高
+            const elTargetWH = { w: originalEl.offsetWidth * scaleNum, h: originalEl.offsetHeight * scaleNum }
+
+            const imgRect = imgC.getBoundingClientRect()
+            const xTarget = center.x - elTargetWH.w / 2 // 图片左边目标位置
+            const yTarget = center.y - elTargetWH.h / 2 // 图片上边目标位置
+
+            flag = false // 表示正在动画中
+
+            changeElStyle(imgC, ['transition: all .3s', `width: ${elTargetWH.w}px`, `left: ${xTarget}px`, `top:${yTarget}px`])
+
+            // 动画结束
+            setTimeout(() => {
+                flag = true
+            }, 300)
+
+
+            // 滚轮事件
+            let scale = 1
+            modalEl.addEventListener('wheel', function(e){
+
+                e.preventDefault()
+
+                const origin = `${e.offsetX}px ${e.offsetY}px`
+                if(e.deltaY < 0){
+                    // 放大
+                    scale += 0.1
+                    if(scale > 4){
+                        scale = 4
+                    }
+                }else {
+                    // 缩小
+                    scale -= 0.1
+                    if(scale < 0.1){
+                        scale = 0.1
+                    }
+                }
+
+                changeElStyle(imgC, ['transition: all .3s', `transform-origin: ${origin}`, `transform: scale(${scale})`])
+
+            })
+
+
+        }
+
+        // 改变指定节点样式
+        function changeElStyle(el, styles){
+            const cssTextArr = el.style.cssText.split(';')
+            cssTextArr.pop()
+            el.style.cssText = cssTextArr.concat(styles).join(';') + ';'
+
+        }
+
+        // 计算缩放系数
+        function scalcScale(){
+            const imgW = originalEl.offsetWidth
+            const imgH = originalEl.offsetHeight
+
+            const winW = window.innerWidth
+            const winH = window.innerHeight
+
+            // 缩放到视口的一半宽度
+            let scale = (winW / 2) / imgW
+
+            // 如果高度超出了，那就按高度的算
+            if(imgH * scalcScale >= winH){
+                scale = (winH / 2 ) / imgH
+            }
+
+            return scale
+        }
+
+
+    </script>
+
+</body>
+</html>
