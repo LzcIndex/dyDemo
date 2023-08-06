@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <div class="face">
+        <div class="eyes-wraper">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+    </div>
+
+    <script>
+
+        const eyes = document.querySelectorAll('.eye')
+
+        document.body.onmousemove = (e) => {
+            eyes.forEach(dom => {
+                let domRect = dom.getBoundingClientRect()
+
+                let eyeCenterX = domRect.left + dom.offsetWidth / 2
+                let eyeCenterY = domRect.top + dom.offsetHeight / 2
+
+                let rad = Math.atan2(e.clientX - eyeCenterX, e.clientY - eyeCenterY) // 得出与鼠标的弧度
+
+                let deg = (rad * (180 / Math.PI) * -1) + 270
+
+                dom.style.transform = `rotate(${deg}deg)`
+
+
+            })
+        }
+
+
+    </script>
+</body>
+
+</html>
