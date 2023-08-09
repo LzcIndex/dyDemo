@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="400px" height="400px" id="mycanvas"></canvas>
+
+    <script>
+        const canvas = document.querySelector('#mycanvas')
+        const ctx = canvas.getContext('2d')
+
+
+        let flag = false
+
+
+        const bottomImg = new Image()
+        bottomImg.src = './2.webp'
+
+        const faceImag = new Image()
+        faceImag.src = './1.png'
+        faceImag.onload = function(){
+            ctx.drawImage(faceImag, 0, 0, canvas.width, canvas.height)
+        }
+
+        canvas.onmousedown = () => {
+            flag = true
+        }
+
+        canvas.onmouseup = () => {
+            flag = false
+        }
+
+        canvas.onmousemove = (e) => {
+
+            if(flag){
+                const x = e.offsetX - 15
+                const y = e.offsetY - 15
+                // 从第二张图片中截取50*50的图片绘制到canvas上面
+                ctx.drawImage(bottomImg, x, y, 30, 30, x, y, 30, 30)
+
+            }
+
+
+        }
+
+    </script>
+
+</body>
+</html>
