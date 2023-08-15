@@ -1,0 +1,51 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.bg {
+  width: 100%;
+  height: 70vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 2em;
+}
+
+.bg1 {
+  background-image: url("./1.jpg");
+}
+
+.bg2 {
+  background-image: url("./2.webp");
+}
+
+.bg3 {
+  background-image: url("./3.jpeg");
+}
+
+.content {
+  width: 100%;
+  height: 30vh;
+  padding: 0 100px;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  line-height: 30px;
+}
+
+.content h3 {
+  font-size: 2.5em;
+}
+
+.content.footer {
+  height: 50vh;
+}
