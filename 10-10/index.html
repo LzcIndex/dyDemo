@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <input type="file" class="file-inp">
+    <div class="container">
+        <button class="file-btn">选择本地文件</button>
+        <div class="preview-wraper">
+            <div class="img-wraper">
+                <img src="" alt="" class="preview">
+                <div class="split"></div>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="result">
+            <img src="" alt="">
+        </div>
+    </div>
+
+    <script>
+
+
+        const containerEl = document.querySelector('.img-wraper')
+        const splitEl = document.querySelector('.split')
+
+        const containerInfo = {
+            x: containerEl.offsetLeft,
+            y: containerEl.offsetTop,
+            w: containerEl.offsetWidth,
+            h: containerEl.offsetHeight,
+        }
+        let maxLeft = containerInfo.w - splitEl.offsetWidth 
+        let maxTop = containerInfo.h - splitEl.offsetHeight
+
+        // 图片选择显示
+        const fileBtn = document.querySelector('.file-btn')
+        const inp = document.querySelector('input')
+        const previewWraper = document.querySelector('.preview-wraper')
+        const preview = document.querySelector('.preview')
+        const resultImg = document.querySelector('.result img')
+
+        fileBtn.onclick = function(){
+            inp.click()
+        }
+
+        const previewInfo = {
+            w: 0,
+            h: 0,
+            cw:0,
+            ch: 0
+        }
+        preview.onload = function(){
+            previewInfo.w = preview.naturalWidth
+            previewInfo.h = preview.naturalHeight
+            previewInfo.cw = preview.width
+            previewInfo.ch = preview.height
+
+            const rect = containerEl.getBoundingClientRect()
+            containerInfo.h = containerEl.clientHeight
+            containerInfo.w = containerEl.clientWidth
+            containerInfo.x = rect.x
+            containerInfo.y = rect.y
+            maxTop = containerInfo.h - splitEl.offsetHeight
+            maxLeft = containerInfo.w - splitEl.offsetWidth
+
+            const splitInfo = getSplitInfo()
+            const dataUrl = getSplitImageDataUrl(splitInfo)
+            resultImg.src = dataUrl
+
+            cavs.toBlob(getFile)
+        }
+        inp.onchange = function(e){
+            const file = e.target.files[0]
+            const fileReader = new FileReader()
+
+            fileReader.onload = function(e){
+                const dataUrl = e.target.result
+                preview.src = dataUrl
+
+                previewWraper.style.display = 'flex'
+                fileBtn.style.display = 'none'
+            }
+
+            fileReader.readAsDataURL(file)
+        }
+
+
+        // 方块拖动
+        splitEl.onmousedown = function(e){
+
+            const offsetInfo = {
+                x: e.offsetX,
+                y: e.offsetY
+            }
+            containerEl.onmousemove = function(ev){
+                console.log(offsetInfo.x);
+                let left = ev.x - offsetInfo.x - containerInfo.x
+                let top = ev.y - offsetInfo.y - containerInfo.y
+                if(left <= 0){
+                    left = 0
+                }
+                if(left >= maxLeft){
+                    left = maxLeft
+                }
+
+                if(top <= 0){
+                    top = 0
+                }
+                if(top >= maxTop){
+                    top = maxTop
+                }
+
+                splitEl.style.left = `${left}px`
+                splitEl.style.top = `${top}px`
+
+                const splitInfo = getSplitInfo()
+                const dataUrl = getSplitImageDataUrl(splitInfo)
+                resultImg.src = dataUrl
+
+            }
+
+
+            document.onmouseup = function(){
+                containerEl.onmousemove = null
+                cavs.toBlob(getFile)
+            }
+
+        }
+
+        // 获取方块信息
+        function getSplitInfo(){
+            const result = {}
+            result.x = splitEl.offsetLeft
+            result.y = splitEl.offsetTop
+            result.w = splitEl.offsetWidth
+            result.h = splitEl.offsetHeight
+            return result
+        }
+
+        // 获取dataUrl
+        var cavs = null
+        function getSplitImageDataUrl(splitInfo){
+            const canvas = document.createElement('canvas')
+            const ctx = canvas.getContext('2d')
+            canvas.width = splitInfo.w
+            canvas.height = splitInfo.h
+
+            // 获取宽高缩放比例
+            const xRadio = previewInfo.w / previewInfo.cw
+            const yRadio = previewInfo.h / previewInfo.ch
+
+            ctx.drawImage(preview, splitInfo.x*xRadio, splitInfo.y*yRadio, splitInfo.w*xRadio, splitInfo.h*yRadio, 0, 0, splitInfo.w, splitInfo.h)
+            cavs = canvas
+            return canvas.toDataURL('images/png')
+        }
+
+        // canvas转成文件
+        function getFile(blob){
+            let file = new File([blob], 'tupian.png', { type: 'image/png'})
+            console.log(file);
+        }
+
+    </script>
+
+</body>
+</html>
