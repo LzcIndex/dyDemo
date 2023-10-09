@@ -7,53 +7,8 @@ html, body {
   margin: 0;
 }
 
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  height: 200px;
-}
-
 .file-inp {
   display: none;
-}
-
-button {
-  outline: none;
-  border: none;
-  background-color: #f1f2f5;
-  padding: 30px;
-  border: 1px solid #e5e9ef;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.preview-wraper {
-  width: 200px;
-  height: 200px;
-  position: relative;
-  display: none;
-  border: 1px solid #000;
-  background-color: #000;
-  align-items: center;
-  justify-content: center;
-}
-
-.preview-wraper .img-wraper {
-  position: relative;
-  font-size: 0;
-}
-
-.preview-wraper img {
-  object-fit: contain;
-}
-
-.line {
-  margin: 0 45px;
-  width: 1px;
-  height: 100%;
-  background-color: #aaa;
 }
 
 img {
@@ -62,7 +17,44 @@ img {
   user-select: none;
 }
 
-.split {
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 200px;
+}
+
+.container .file-btn {
+  outline: none;
+  border: none;
+  background-color: #f1f2f5;
+  padding: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.container .prew-wraper {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  border: 1px solid #000;
+  background-color: #000;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.container .prew-wraper .img-wraper {
+  position: relative;
+  font-size: 0;
+}
+
+.container .prew-wraper .img-wraper img {
+  object-fit: contain;
+}
+
+.container .prew-wraper .img-wraper .split {
   width: 80px;
   height: 80px;
   cursor: move;
@@ -74,7 +66,14 @@ img {
   z-index: 99;
 }
 
-.result {
+.container .line {
+  margin: 0 45px;
+  width: 1px;
+  height: 100%;
+  background-color: #aaa;
+}
+
+.container .result {
   width: 100px;
   height: 100px;
   border-radius: 50%;

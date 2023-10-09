@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style.css">
@@ -10,105 +11,116 @@
     <input type="file" class="file-inp">
     <div class="container">
         <button class="file-btn">选择本地文件</button>
-        <div class="preview-wraper">
+        <div class="prew-wraper">
             <div class="img-wraper">
                 <img src="" alt="" class="preview">
                 <div class="split"></div>
             </div>
         </div>
-
         <div class="line"></div>
-
         <div class="result">
             <img src="" alt="">
         </div>
     </div>
 
+
     <script>
 
+        const inp = document.querySelector('.file-inp')
+        const fileBtn = document.querySelector('.file-btn')
+        const preview = document.querySelector('.preview')
+        const prewWraper  = document.querySelector('.prew-wraper')
 
         const containerEl = document.querySelector('.img-wraper')
         const splitEl = document.querySelector('.split')
 
-        const containerInfo = {
-            x: containerEl.offsetLeft,
-            y: containerEl.offsetTop,
-            w: containerEl.offsetWidth,
-            h: containerEl.offsetHeight,
-        }
-        let maxLeft = containerInfo.w - splitEl.offsetWidth 
-        let maxTop = containerInfo.h - splitEl.offsetHeight
-
-        // 图片选择显示
-        const fileBtn = document.querySelector('.file-btn')
-        const inp = document.querySelector('input')
-        const previewWraper = document.querySelector('.preview-wraper')
-        const preview = document.querySelector('.preview')
         const resultImg = document.querySelector('.result img')
 
-        fileBtn.onclick = function(){
+
+        // 当点击按钮时触发input的点击事件
+        fileBtn.onclick = () => {
             inp.click()
         }
 
-        const previewInfo = {
-            w: 0,
-            h: 0,
-            cw:0,
-            ch: 0
-        }
-        preview.onload = function(){
-            previewInfo.w = preview.naturalWidth
-            previewInfo.h = preview.naturalHeight
-            previewInfo.cw = preview.width
-            previewInfo.ch = preview.height
-
-            const rect = containerEl.getBoundingClientRect()
-            containerInfo.h = containerEl.clientHeight
-            containerInfo.w = containerEl.clientWidth
-            containerInfo.x = rect.x
-            containerInfo.y = rect.y
-            maxTop = containerInfo.h - splitEl.offsetHeight
-            maxLeft = containerInfo.w - splitEl.offsetWidth
-
-            const splitInfo = getSplitInfo()
-            const dataUrl = getSplitImageDataUrl(splitInfo)
-            resultImg.src = dataUrl
-
-            cavs.toBlob(getFile)
-        }
+        // 选择文件
         inp.onchange = function(e){
             const file = e.target.files[0]
+
             const fileReader = new FileReader()
 
             fileReader.onload = function(e){
                 const dataUrl = e.target.result
                 preview.src = dataUrl
 
-                previewWraper.style.display = 'flex'
+                prewWraper.style.display = 'flex'
                 fileBtn.style.display = 'none'
             }
 
             fileReader.readAsDataURL(file)
         }
 
+        // 重新设置图片的几何信息
+        const previewInfo = {
+            w: 0, // 实际宽
+            h: 0,// 实际高
+            cw: 0,// 经过css作用后的宽
+            ch: 0// 经过css作用后的高
+        }
+        preview.onload = function(){
+
+            previewInfo.w = preview.naturalWidth
+            previewInfo.h = preview.naturalHeight
+            previewInfo.cw = preview.width
+            previewInfo.ch = preview.height
+
+
+            const rect = containerEl.getBoundingClientRect()
+            containerInfo.h = containerEl.offsetHeight
+            containerInfo.w = containerEl.offsetWidth
+            containerInfo.x = rect.x
+            containerInfo.y = rect.y
+            maxLeft = containerInfo.w - splitEl.offsetWidth
+            maxTop = containerInfo.h - splitEl.offsetHeight
+
+            const splitInfo = getSplitInfo()
+            const dataUrl = getSplitImageDataUrl(splitInfo)
+            resultImg.src = dataUrl
+        }
+
 
         // 方块拖动
+
+        // 图片容器的几何信息
+        const containerInfo = {
+            x: containerEl.offsetLeft,
+            y: containerEl.offsetTop,
+            w: containerEl.offsetWidth,
+            h: containerEl.offsetHeight
+        }
+
+        // 小方块边界值
+        let maxLeft = containerInfo.w - splitEl.offsetWidth
+        let maxTop = containerInfo.h - splitEl.offsetHeight
+
         splitEl.onmousedown = function(e){
 
             const offsetInfo = {
                 x: e.offsetX,
                 y: e.offsetY
             }
+
             containerEl.onmousemove = function(ev){
-                console.log(offsetInfo.x);
+
                 let left = ev.x - offsetInfo.x - containerInfo.x
                 let top = ev.y - offsetInfo.y - containerInfo.y
-                if(left <= 0){
+
+                if(left <=0){
                     left = 0
                 }
                 if(left >= maxLeft){
                     left = maxLeft
                 }
+
 
                 if(top <= 0){
                     top = 0
@@ -117,8 +129,8 @@
                     top = maxTop
                 }
 
-                splitEl.style.left = `${left}px`
-                splitEl.style.top = `${top}px`
+                splitEl.style.left = left + 'px'
+                splitEl.style.top = top + 'px'
 
                 const splitInfo = getSplitInfo()
                 const dataUrl = getSplitImageDataUrl(splitInfo)
@@ -129,6 +141,7 @@
 
             document.onmouseup = function(){
                 containerEl.onmousemove = null
+                // 从这里可以拿到文件对象，然后做上传的操作
                 cavs.toBlob(getFile)
             }
 
@@ -136,12 +149,12 @@
 
         // 获取方块信息
         function getSplitInfo(){
-            const result = {}
-            result.x = splitEl.offsetLeft
-            result.y = splitEl.offsetTop
-            result.w = splitEl.offsetWidth
-            result.h = splitEl.offsetHeight
-            return result
+           return {
+                x: splitEl.offsetLeft,
+                y: splitEl.offsetTop,
+                w: splitEl.offsetWidth,
+                h: splitEl.offsetHeight
+           }
         }
 
         // 获取dataUrl
@@ -159,15 +172,18 @@
             ctx.drawImage(preview, splitInfo.x*xRadio, splitInfo.y*yRadio, splitInfo.w*xRadio, splitInfo.h*yRadio, 0, 0, splitInfo.w, splitInfo.h)
             cavs = canvas
             return canvas.toDataURL('images/png')
+
         }
 
-        // canvas转成文件
+        // canvas保存为文件对象
         function getFile(blob){
-            let file = new File([blob], 'tupian.png', { type: 'image/png'})
+            let file = new File([blob], 'image.png', {type: 'image/png'})
+
             console.log(file);
         }
 
     </script>
+
 
 </body>
 </html>
